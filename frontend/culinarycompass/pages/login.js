@@ -1,6 +1,5 @@
 // Import styled-components
 import styled, { keyframes } from 'styled-components';
-// import logo from './images/Food_Logo.jpg'; // Import your logo image
 
 // Animation for the button
 const fadeIn = keyframes`
@@ -91,9 +90,7 @@ const LoginForm = () => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      {/* <Logo src={<Logo src="../../../frontend/culinarycompass/images/Food_Logo.jpg" alt="Logo" />
-} alt="Logo" /> Display your logo */}
-       <img src="/images/Food_Logo.jpg" alt="Logo" />
+
       <Title>Login</Title>
       <Input type="email" name="email" placeholder="Email" onChange={handleChange} required />
       <Input type="password" name="password" placeholder="Password" onChange={handleChange} required />
