@@ -37,7 +37,7 @@ jspm_packages
 .node_repl_history
 .next
 
-
+.env_local
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/django
