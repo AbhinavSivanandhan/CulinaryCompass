@@ -17,7 +17,7 @@ const Dashboard = () => {
         <div className="dashboard-container">
             <nav className="navbar">
                 <div className="navbar-content">
-                    <img src="images/logo.jpeg" alt="Logo" className="logo" />
+                    <img src="images/Food_Logo.jpg" alt="Logo" className="logo" />
                 </div>
                 <div>
                     <button className="nav-button" onClick={handleSearch}>Search for Recipe</button>
