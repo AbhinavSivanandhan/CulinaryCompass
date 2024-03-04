@@ -1,44 +1,94 @@
-// pages/login.js
-
+// pages/register.js
+import styled from 'styled-components';
 import { useState } from 'react';
-import styles from './login.module.css'; // Import the CSS module
 
-export default function Login() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f2f5;
+`;
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // Here you would usually send the username and password to the server for verification
-        console.log('Login submitted', { username, password });
+const Form = styled.form`
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+`;
+
+const Select = styled.select`
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+`;
+
+const Button = styled.button`
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+const Title = styled.h1`
+  text-align: center;
+  color: #333;
+`;
+
+export default function Register() {
+    const [formData, setFormData] = useState({
+        first_name: '',
+        last_name: '',
+        email: '',
+        dob: '',
+        gender: '',
+    });
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log(formData);
+        // Add your submission logic here
     };
 
     return (
-        <div className={styles.loginContainer}>
-            <form onSubmit={handleSubmit} className={styles.loginForm}>
-                <h1>Login</h1>
-                <div>
-                    <label htmlFor="username">Username</label>
-                    <input
-                        id="username"
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="password">Password</label>
-                    <input
-                        id="password"
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <button type="submit">Log In</button>
-            </form>
-        </div>
+      <Container>
+        <Form onSubmit={handleSubmit}>
+            <Title>Register</Title>
+            <Input type="text" name="first_name" placeholder="First Name" onChange={handleChange} />
+            <Input type="text" name="last_name" placeholder="Last Name" onChange={handleChange} />
+            <Input type="email" name="email" placeholder="Email" onChange={handleChange} required />
+            <Input type="date" name="dob" onChange={handleChange} />
+            <Select name="gender" onChange={handleChange}>
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+                <option value="Prefer not to say">Prefer not to say</option>
+            </Select>
+            <Button type="submit">Register</Button>
+        </Form>
+      </Container>
     );
 }
