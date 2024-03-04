@@ -1,22 +1,46 @@
 /* dashboard.css */
 .dashboard-container {
-    min-height: 100vh;
-    background-color: #f2e9f4; /* Light pastel violet background */
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
 }
 
 .navbar {
     background-color: #9a85a9; /* Dark pastel violet for the nav bar */
     padding: 10px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.nav-link {
+.navbar-content {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 70px; /* Adjust width as needed */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 20px;
+    border-radius: 50%; /* Rounded shape */
+    border: 2px solid white; /* White border */
+    padding: 5px; /* Increase padding for space around the logo */
+}
+
+.nav-button {
+    background-color: transparent;
+    border: none;
     color: white;
-    text-decoration: none;
-    margin-right: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
+/* Hover effect for buttons */
+.nav-button:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white background on hover */
 }
 
 .center {
@@ -27,7 +51,7 @@
 }
 
 .title {
+    text-align: center;
     font-size: 2.5em;
     color: #7d529e; /* Darker violet for the header */
-    text-align: center;
 }
