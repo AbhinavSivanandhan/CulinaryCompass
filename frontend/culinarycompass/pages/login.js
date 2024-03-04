@@ -1,94 +1,105 @@
-// pages/register.js
-import styled from 'styled-components';
-import { useState } from 'react';
+// Import styled-components
+import styled, { keyframes } from 'styled-components';
+// import logo from './images/Food_Logo.jpg'; // Import your logo image
 
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f0f2f5;
+// Animation for the button
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 `;
 
+// Styled components with enhanced aesthetics
 const Form = styled.form`
-  padding: 20px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
+  margin: 40px auto;
+  background: linear-gradient(135deg, #6e8efb, #88d3ce);
+  color: #fff;
+`;
+
+const Title = styled.h2`
+  margin: 0;
+  font-size: 2rem;
+  color: #ffffff;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
 `;
 
 const Input = styled.input`
   width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-`;
-
-const Select = styled.select`
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-`;
-
-const Button = styled.button`
-  width: 100%;
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
+  padding: 15px;
+  border-radius: 25px;
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  &:hover {
-    background-color: #0056b3;
+  margin: 5px 0;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.8);
+  color: #333;
+  &:focus {
+    outline: none;
+    background: #fff;
+    box-shadow: 0 0 0 2px #88d3ce;
   }
 `;
 
-const Title = styled.h1`
-  text-align: center;
-  color: #333;
+const Button = styled.button`
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  background-color: #fff;
+  color: #007bff;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+  animation: ${fadeIn} 0.5s ease-out;
+  &:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
 `;
 
-export default function Register() {
-    const [formData, setFormData] = useState({
-        first_name: '',
-        last_name: '',
-        email: '',
-        dob: '',
-        gender: '',
-    });
+const Logo = styled.img`
+  width: 150px; /* Set the width of your logo as per your requirement */
+  height: auto; /* Maintain aspect ratio */
+`;
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+// Your Component
+const LoginForm = () => {
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // Handle login logic
+  };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log(formData);
-        // Add your submission logic here
-    };
+  // Handle input change
+  const handleChange = (event) => {
+    // Input change logic
+  };
 
-    return (
-      <Container>
-        <Form onSubmit={handleSubmit}>
-            <Title>Register</Title>
-            <Input type="text" name="first_name" placeholder="First Name" onChange={handleChange} />
-            <Input type="text" name="last_name" placeholder="Last Name" onChange={handleChange} />
-            <Input type="email" name="email" placeholder="Email" onChange={handleChange} required />
-            <Input type="date" name="dob" onChange={handleChange} />
-            <Select name="gender" onChange={handleChange}>
-                <option value="">Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-                <option value="Prefer not to say">Prefer not to say</option>
-            </Select>
-            <Button type="submit">Register</Button>
-        </Form>
-      </Container>
-    );
-}
+  return (
+    <Form onSubmit={handleSubmit}>
+      {/* <Logo src={<Logo src="../../../frontend/culinarycompass/images/Food_Logo.jpg" alt="Logo" />
+} alt="Logo" /> Display your logo */}
+       <img src="/images/Food_Logo.jpg" alt="Logo" />
+      <Title>Login</Title>
+      <Input type="email" name="email" placeholder="Email" onChange={handleChange} required />
+      <Input type="password" name="password" placeholder="Password" onChange={handleChange} required />
+      <Button type="submit">Login</Button>
+    </Form>
+  );
+};
+
+export default LoginForm;
