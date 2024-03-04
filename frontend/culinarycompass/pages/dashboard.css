@@ -1,0 +1,33 @@
+/* dashboard.css */
+.dashboard-container {
+    min-height: 100vh;
+    background-color: #f2e9f4; /* Light pastel violet background */
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    background-color: #9a85a9; /* Dark pastel violet for the nav bar */
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.center {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    font-size: 2.5em;
+    color: #7d529e; /* Darker violet for the header */
+    text-align: center;
+}
