@@ -4,17 +4,17 @@ import { useState } from 'react';
 const RegisterForm = ({ className }) => {
   // Handle form submission
   const [formData, setFormData] = useState({
+    username:'',
     first_name: '',
     last_name: '',
-    password: '',
     email: '',
-    dob: '',
     gender: '',
+    dob: '',
+    password: '',
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const response = await fetch('/api/register', {
         method: 'POST',
@@ -25,6 +25,10 @@ const RegisterForm = ({ className }) => {
       });
 
       if (!response.ok) {
+
+
+
+
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
@@ -48,6 +52,7 @@ const RegisterForm = ({ className }) => {
   return (
     <form onSubmit={handleSubmit} className={`${styles.formContainer} ${className}`}>
       <h2 className={styles.title}>Register</h2>
+      <input type="text" name="username" placeholder="User Name" onChange={handleChange} className={styles.inputField} />
       <input type="text" name="first_name" placeholder="First Name" onChange={handleChange} className={styles.inputField} />
       <input type="text" name="last_name" placeholder="Last Name" onChange={handleChange} className={styles.inputField} />
       <input type="Password" name="Password" placeholder="Password" onChange={handleChange} className={styles.inputField} />

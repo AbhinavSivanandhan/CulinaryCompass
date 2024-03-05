@@ -2,7 +2,7 @@
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {
-      const { first_name, last_name, password, email, dob, gender } = req.body;
+      const { username, first_name, last_name, email, gender, dob, password } = req.body;
   
       // Perform any necessary validation or processing of the form data here
   
@@ -13,7 +13,7 @@ export default async function handler(req, res) {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ first_name, last_name, password, email, dob, gender }),
+          body: JSON.stringify({ username, first_name, last_name, email, gender, dob, password }),
         });
   
         const data = await response.json();
