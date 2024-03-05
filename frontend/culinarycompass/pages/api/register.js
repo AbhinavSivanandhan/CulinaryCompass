@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   
       try {
         // Send the form data to your backend server or perform any other actions
-        const response = await fetch('http://localhost:8000/register/', {
+        const response = await fetch('http://localhost:8000/api/register/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
