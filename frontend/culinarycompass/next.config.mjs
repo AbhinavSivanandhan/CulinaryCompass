@@ -1,7 +1,14 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
-compiler: {
-    // Enables the styled-components SWC transform
-    styledComponents: true
-  }
+
+const nextConfig = {
+    async rewrites() {
+        return [
+          {
+            source: '/',
+            destination: '/index',
+          },
+        ];
+      },
+};
+
 export default nextConfig;

@@ -9,11 +9,20 @@ const Dashboard = () => {
         router.push('/');
     };
 
+    const handleSearch = () => {
+        // Implement search functionality
+    };
+
     return (
         <div className="dashboard-container">
             <nav className="navbar">
-                <a href="#" className="nav-link">Search for Recipe</a>
-                <button className="nav-link" onClick={handleLogout}>Logout</button>
+                <div className="navbar-content">
+                    <img src="images/Food_Logo.jpg" alt="Logo" className="logo" />
+                </div>
+                <div>
+                    <button className="nav-button" onClick={handleSearch}>Search for Recipe</button>
+                    <button className="nav-button" onClick={handleLogout}>Logout</button>
+                </div>
             </nav>
             <div className="center">
                 <h1 className="title">Welcome to Culinary Compass</h1>
