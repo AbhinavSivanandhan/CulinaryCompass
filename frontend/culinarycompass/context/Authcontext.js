@@ -1,5 +1,5 @@
 // context/AuthContext.js
-import { Router } from 'next/router';
+import { useRouter } from 'next/router';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 const AuthContext = createContext();
@@ -7,6 +7,7 @@ const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
+    const router = useRouter()
     const [accessToken, setAccessToken] = useState(null);
     const [refreshToken, setRefreshToken] = useState(null);
     useEffect(() => {
@@ -30,6 +31,7 @@ export const AuthProvider = ({ children }) => {
       setRefreshToken(data.refresh);
       localStorage.setItem('access', data.access);
       localStorage.setItem('refresh', data.refresh);
+        router.push('/dashboard');
     } catch (error) {
       console.error('Login error:', error);
     }

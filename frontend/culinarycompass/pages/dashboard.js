@@ -13,39 +13,39 @@ const Dashboard = () => {
         // Implement search functionality
     };
 
-    useEffect(() => {
-        // check if user is logged in
-        const loggedIn = localStorage.getItem('access');
-        if (!loggedIn) {
-            router.push('/');
-        }
-        else{
-            // Implement fetching user data and logout if unauthorized
-            try {
-                // Define the URL of your backend endpoint from env
-                const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL + '/profile/';
-                const token = localStorage.getItem('access');
-                fetch(backendUrl, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                })
-                .then((data) => {
-                    console.log(data);
-                    if (!data.ok) {
-                        throw new Error(`HTTP error! status: ${data.status}`);
-                    }
-                });
-            }
-            catch (error) {
+    // useEffect(() => {
+    //     // check if user is logged in
+    //     const loggedIn = localStorage.getItem('access');
+    //     if (!loggedIn) {
+    //         router.push('/');
+    //     }
+    //     else{
+    //         // Implement fetching user data and logout if unauthorized
+    //         try {
+    //             // Define the URL of your backend endpoint from env
+    //             const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL + '/profile/';
+    //             const token = localStorage.getItem('access');
+    //             fetch(backendUrl, {
+    //                 method: 'GET',
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                     'Authorization': `Bearer ${token}`
+    //                 }
+    //             })
+    //             .then((data) => {
+    //                 console.log(data);
+    //                 if (!data.ok) {
+    //                     throw new Error(`HTTP error! status: ${data.status}`);
+    //                 }
+    //             });
+    //         }
+    //         catch (error) {
 
-                console.error('Fetching user data error:', error);
+    //             console.error('Fetching user data error:', error);
                 
-            }
-        }
-    },[]);
+    //         }
+    //     }
+    // },[]);
 
     return (
         <div className="dashboard-container">
