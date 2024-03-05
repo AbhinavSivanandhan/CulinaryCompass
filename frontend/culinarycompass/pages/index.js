@@ -1,7 +1,7 @@
 // pages/index.js
 import Link from 'next/link';
 
-export default function HomePage() {
+export default function Home() {
   return (
     <div className="container fadeIn">
       <img src="/images/Food_Logo.jpg" alt="Culinary Compass Logo" className="logo" />
