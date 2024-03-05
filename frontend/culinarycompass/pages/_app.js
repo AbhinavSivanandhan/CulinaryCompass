@@ -1,5 +1,6 @@
 // pages/_app.js
-import { AuthProvider } from '../context/Authcontext';
+import '../styles/globals.css'; // Ensure you have this file set up with Tailwind
+import { AuthProvider } from '../context/AuthContext';
 
 function MyApp({ Component, pageProps }) {
     return (
