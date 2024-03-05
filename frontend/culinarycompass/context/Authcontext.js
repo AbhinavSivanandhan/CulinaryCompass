@@ -1,27 +1,70 @@
 // context/AuthContext.js
-import { createContext, useState, useContext } from 'react';
+import { Router } from 'next/router';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
+export const useAuth = () => useContext(AuthContext);
 
-  const login = (userData) => {
-    setUser(userData);
-    setIsLoggedIn(true);
+export const AuthProvider = ({ children }) => {
+    const [accessToken, setAccessToken] = useState(null);
+    const [refreshToken, setRefreshToken] = useState(null);
+    useEffect(() => {
+        const storedAccessToken = localStorage.getItem('access');
+    const storedRefreshToken = localStorage.getItem('refresh');
+    setAccessToken(storedAccessToken);
+    setRefreshToken(storedRefreshToken);
+    },[]);
+
+  const login = async (username, password) => {
+    try {
+      const response = await fetch('/api/login/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+      const data = await response.json();
+      setAccessToken(data.access);
+      setRefreshToken(data.refresh);
+      localStorage.setItem('access', data.access);
+      localStorage.setItem('refresh', data.refresh);
+    } catch (error) {
+      console.error('Login error:', error);
+    }
   };
 
   const logout = () => {
-    setUser(null);
-    setIsLoggedIn(false);
+    setAccessToken(null);
+    setRefreshToken(null);
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
   };
 
+  const register = async(username, first_name, last_name, email, gender, dob, password) => {
+    try {
+      const response = await fetch('/api/register/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, first_name, last_name, email, gender, dob, password }),
+        });
+        const data = await response.json();
+        console.log(data);
+        setTimeout( function ( ) { alert( "Registration succesful" ); }, 2000 );
+        Router.push('/login');
+    }
+    catch (error) {
+        console.error('Registration error:', error);
+        alert('Registration failed. Please try again.');
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, login, logout }}>
+    <AuthContext.Provider value={{ accessToken, refreshToken, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
-
-export const useAuth = () => useContext(AuthContext);
