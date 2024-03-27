@@ -7,11 +7,11 @@
     gap: 20px;
     padding: 40px;
     border-radius: 20px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 20px #0000001a;
     width: 100%;
     max-width: 400px;
     margin: 40px auto;
-    background: linear-gradient(135deg, #000209f1, #9f2ab9);
+    background: linear-gradient(135deg, rgba(193, 200, 225, 0.945), #cabdd1);
     color: #fff;
   }
   
@@ -38,7 +38,7 @@
     border: none;
     border-radius: 25px;
     background-color: #fff;
-    color: #007bff;
+    color: #3e146c;
     cursor: pointer;
     font-weight: bold;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
