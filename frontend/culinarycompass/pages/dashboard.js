@@ -9,6 +9,10 @@ const Dashboard = () => {
         router.push('/');
     };
 
+    const handlerecipe = () => {
+        router.push('/recipePage');
+    };
+
     const handleSearch = () => {
         // Implement search functionality
     };
@@ -61,10 +65,6 @@ const Dashboard = () => {
             <div className="top">
                 <h1 className="title">Welcome to Culinary Compass</h1>
             </div>
-            {/* <div>
-            <img src="images/Food_Logo.jpg"  width={500}  height={300}/>         
-   <a href="https://www.theculinarycompass.com/grilled-boneless-skinless-chicken-thighs/" target="_self">Grilled Boneless Skinless Chicken Thighs</a>
-            </div> */}
             <div className="imageContainer">
       <div className="imageItem">
         <img
@@ -74,9 +74,13 @@ const Dashboard = () => {
           height={300}
           layout="intrinsic"
         /> 
-        <br></br>
+        {/* <br></br>
         <a href="https://www.theculinarycompass.com/grilled-boneless-skinless-chicken-thighs/" target="_self">Grilled Boneless Skinless Chicken Thighs</a>
-          
+           */}
+
+<br></br>
+        <button className='button' onClick={handlerecipe}>Grilled Boneless Skinless Chicken Thighs</button>
+
       </div>
       <div className="imageItem">
         <img
