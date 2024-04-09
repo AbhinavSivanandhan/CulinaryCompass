@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { useAuth } from '@/context/Authcontext';
 import './dashboard.css'; // Make sure your CSS supports a 3x3 grid display
 
 const Dashboard = () => {
