@@ -4,23 +4,29 @@ import './dashboard.css'; // Make sure your CSS supports a 3x3 grid display
 
 const Dashboard = () => {
     const router = useRouter();
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState([]);      
+    const { logout, accessToken, refreshToken, getUser, user } = useAuth();
 
     useEffect(() => {
-        // Simulating fetching JSON data from an API
-        fetch('https://yourapi.com/items')
-            .then(response => response.json())
-            .then(data => setItems(data.slice(0, 9))) // Taking only the first 9 items
-            .catch(error => console.error('Error fetching items:', error));
+      if (!accessToken && !refreshToken) {
+        router.push('/');
+      }
+    });
+    useEffect(() => {
+      getUser();
+      // Simulating fetching JSON data from an API
+      fetch('https://yourapi.com/items')
+      .then(response => response.json())
+      .then(data => setItems(data.slice(0, 9))) // Taking only the first 9 items
+      .catch(error => console.error('Error fetching items:', error));
     }, []);
 
     const handleLogout = () => {
-        router.push('/');
+        logout();
     };
 
-    const handleRecipe = id => {
-        // Assuming you'll route to a detailed page based on the item's ID or some identifier
-        router.push(`/recipePage/${id}`);
+    const handlerecipe = (title) => {
+        router.push('/recipePage?recipename='+title);
     };
 
     return (

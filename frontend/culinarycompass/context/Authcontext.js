@@ -10,6 +10,7 @@ export const AuthProvider = ({ children }) => {
   const router = useRouter()
   const [accessToken, setAccessToken] = useState(null);
   const [refreshToken, setRefreshToken] = useState(null);
+  const [user, setUser] = useState(null);
   useEffect(() => {
     const storedAccessToken = localStorage.getItem('access') ? localStorage.getItem('access') : null;
     const storedRefreshToken = localStorage.getItem('refresh') ? localStorage.getItem('refresh') : null;
@@ -80,8 +81,28 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
+  const getUser = async () => {
+    try {
+      const response = await fetch('/api/getUser/', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setUser(data);
+      }
+    }
+    catch (error) {
+      console.error('User data error:', error);
+    }
+  }
+
+
   return (
-    <AuthContext.Provider value={{ accessToken, refreshToken, login, logout, register }}>
+    <AuthContext.Provider value={{ accessToken, refreshToken, login, logout, register,getUser, user }}>
       {children}
     </AuthContext.Provider>
   );

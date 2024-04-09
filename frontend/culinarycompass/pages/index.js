@@ -7,11 +7,10 @@ export default function Home() {
   const router = useRouter();
   const { accessToken, refreshToken } = useAuth();
   useEffect(() => {
-    console.log(accessToken, refreshToken);
     if (accessToken && refreshToken) {
       router.push('/dashboard');
     }
-  });
+  },[accessToken]);
   return (
     <div className="container">
       <img src="/images/Food_Logo.jpg" alt="Culinary Compass Logo" className="logo" />

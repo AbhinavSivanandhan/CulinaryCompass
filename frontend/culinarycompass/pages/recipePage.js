@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './dashboard.css'; // Import your CSS file
 
 
@@ -7,7 +7,16 @@ const RecipePage = () => {
     const router = useRouter();
     // State to manage the selected recipe
     // const [setSelectedRecipe] = useState(null);
-
+    // get recipe name from query params
+    const [recipeName, setRecipeName] = useState('');
+    useEffect(() => {
+        if (router.query.recipename) {
+            setRecipeName(router.query.recipe);
+        }
+        else{
+            router.push('/404');
+        }
+    }, []);
     // Handler to simulate recipe selection
     const handleRecipeClick = (recipe) => {
         // setSelectedRecipe(1);
