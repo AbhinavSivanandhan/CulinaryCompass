@@ -1,158 +1,47 @@
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
-import { useAuth } from '@/context/Authcontext';
-import './dashboard.css'; // Import your CSS file
+import React, { useEffect, useState } from 'react';
+import './dashboard.css'; // Make sure your CSS supports a 3x3 grid display
 
 const Dashboard = () => {
     const router = useRouter();
-    const { logout, accessToken, refreshToken } = useAuth();
+    const [items, setItems] = useState([]);
 
     useEffect(() => {
-      if (!accessToken && !refreshToken) {
-        router.push('/');
-      }
+        // Simulating fetching JSON data from an API
+        fetch('https://yourapi.com/items')
+            .then(response => response.json())
+            .then(data => setItems(data.slice(0, 9))) // Taking only the first 9 items
+            .catch(error => console.error('Error fetching items:', error));
     }, []);
 
     const handleLogout = () => {
-        logout();
+        router.push('/');
     };
 
-    const handlerecipe = () => {
-        router.push('/recipePage');
+    const handleRecipe = id => {
+        // Assuming you'll route to a detailed page based on the item's ID or some identifier
+        router.push(`/recipePage/${id}`);
     };
-
-    const handleSearch = () => {
-        // Implement search functionality
-    };
-
-    // useEffect(() => {
-    //     // check if user is logged in
-    //     const loggedIn = localStorage.getItem('access');
-    //     if (!loggedIn) {
-    //         router.push('/');
-    //     }
-    //     else{
-    //         // Implement fetching user data and logout if unauthorized
-    //         try {
-    //             // Define the URL of your backend endpoint from env
-    //             const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL + '/profile/';
-    //             const token = localStorage.getItem('access');
-    //             fetch(backendUrl, {
-    //                 method: 'GET',
-    //                 headers: {
-    //                     'Content-Type': 'application/json',
-    //                     'Authorization': `Bearer ${token}`
-    //                 }
-    //             })
-    //             .then((data) => {
-    //                 console.log(data);
-    //                 if (!data.ok) {
-    //                     throw new Error(`HTTP error! status: ${data.status}`);
-    //                 }
-    //             });
-    //         }
-    //         catch (error) {
-
-    //             console.error('Fetching user data error:', error);
-                
-    //         }
-    //     }
-    // },[]);
 
     return (
         <div className="dashboard-container">
             <nav className="navbar">
-                <div className="navbar-content">
-                    <img src="images/Food_Logo.jpg" alt="Logo" className="logo" />
-                </div>
-                <div>
-                    <button className="nav-button" onClick={handleSearch}>Search for Recipe</button>
-                    <button className="nav-button" onClick={handleLogout}>Logout</button>
-                </div>
+                {/* Navbar content */}
             </nav>
-            <div className="top">
-                <h1 className="title">Welcome to Culinary Compass</h1>
+            <h1 className="title">Welcome to Culinary Compass</h1>
+            <div className="grid-container"> {/* Make sure to define grid-container in your CSS */}
+                {items.length > 0 ? items.map((item, index) => (
+                    <div key={index} className="grid-item"> {/* grid-item should also be defined in CSS */}
+                        {item.image ? <img src={item.image} alt={item.title} /> : null}
+                        <p>{item.title}</p>
+                        <button onClick={() => handleRecipe(index)}>View Recipe</button>
+                    </div>
+                )) : <p>No items to display</p>}
             </div>
-            <div className="imageContainer">
-      <div className="imageItem">
-        <img
-          src="images/Chicken_Manchurian.jpg"
-          alt="Image 1"
-          width={400}
-          height={300}
-          layout="intrinsic"
-        /> 
-        {/* <br></br>
-        <a href="https://www.theculinarycompass.com/grilled-boneless-skinless-chicken-thighs/" target="_self">Grilled Boneless Skinless Chicken Thighs</a>
-           */}
-
-<br></br>
-        <button className='button' onClick={handlerecipe}>Grilled Boneless Skinless Chicken Thighs</button>
-
-      </div>
-      <div className="imageItem">
-        <img
-          src="images/salmon.jpg"
-          alt="Image 2"
-          width={400}
-          height={300}
-          layout="intrinsic"
-        />
-        <br></br>
-                <a href="https://www.theculinarycompass.com/grilled-boneless-skinless-chicken-thighs/" target="_self">Salmon Fry</a>
-          
-      </div>
-      <div className="imageItem">
-        <img
-          src="images/Chorizo-Cheese-Dip.jpg"
-          alt="Image 3"
-          width={400}
-          height={300}
-          layout="intrinsic"
-        />
-                <br></br>
-                <a href="https://www.theculinarycompass.com/grilled-boneless-skinless-chicken-thighs/" target="_self">Choriza-Cheese-Dip</a>
-          
-      </div>
-    </div>
-    <div className="imageContainer">
-      <div className="imageItem">
-        <img
-          src="images/Firecracker-Meatballs.jpg"
-          alt="Image 1"
-          width={400}
-          height={300}
-          layout="intrinsic"
-        />
-                  <br></br>
-                <a href="https://www.theculinarycompass.com/grilled-boneless-skinless-chicken-thighs/" target="_self">Firecracker-Meatballs</a>
-          
-      </div>
-      <div className="imageItem">
-        <img
-          src="images/Old-Bay-Steamed-Shrimp.jpg"
-          alt="Image 2"
-          width={400}
-          height={300}
-          layout="intrinsic"
-        />
-            <br></br>
-                <a href="https://www.theculinarycompass.com/grilled-boneless-skinless-chicken-thighs/" target="_self">Old-Bay-Steamed-Shrimp</a>
-          
-      </div>
-      <div className="imageItem">
-        <img
-          src="images/Pull-Apart-Garlic-Bread.jpg"
-          alt="Image 3"
-          width={400}
-          height={300}
-          layout="intrinsic"
-        />
-            <br></br>
-                <a href="https://www.theculinarycompass.com/grilled-boneless-skinless-chicken-thighs/" target="_self">Pull-Apart-Garlic-Bread</a>
-          
-      </div>
-    </div>
+            <div>
+                <button className="nav-button" onClick={() => router.push('/search')}>Search for Recipe</button>
+                <button className="nav-button" onClick={handleLogout}>Logout</button>
+            </div>
         </div>
     );
 };
