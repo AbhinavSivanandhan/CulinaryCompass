@@ -7,14 +7,20 @@
   gap: 20px;
   padding: 40px;
   border-radius: 20px;
-  box-shadow: 0 10px 20px #0000001a;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 20px 40px rgba(0, 0, 0, 0.05); /* Smoother shadows for depth */
   width: 100%;
   max-width: 400px;
   margin: 40px auto;
-  background: #efe9f4;
+  background: #e7e0ee; /* Adjusted background color to match the provided hex */
   color: rgb(62, 2, 77);
+  border: 1px solid #dcd4e9; /* Subtle border to enhance the form's visual structure */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions for interactive effects */
 }
 
+.formContainer:hover {
+  transform: translateY(-5px); /* Slight lift effect on hover for interactivity */
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15), 0 20px 40px rgba(0, 0, 0, 0.1); /* Enhanced shadow on hover for depth */
+}
 .title {
   margin: 0;
   font-size: 2rem;
