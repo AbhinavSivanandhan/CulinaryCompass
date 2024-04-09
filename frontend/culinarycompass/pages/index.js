@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="container fadeIn">
+    <div className="container">
       <img src="/images/Food_Logo.jpg" alt="Culinary Compass Logo" className="logo" />
       <h1 className="title">Welcome to Culinary Compass</h1>
       <p className="description">

@@ -1,30 +1,18 @@
 /* styles/globals.css */
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap'); */
 
 body {
   margin: 0;
-  font-family: 'Pacifico', cursive;
-  background-color: #efe9f4; /* Updated background color */
+  font-family: 'Times New Roman', Times, serif;
+  background-color: #f3eff7; /* Updated background color */
 }
 
-.fadeIn {
-  animation: fadeInAnimation ease 2s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-}
-
-@keyframes fadeInAnimation {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
 
 .button:hover {
-  transform: scale(1.05);
-  transition: transform 0.5s ease-in-out;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+
+  /* transform: scale(1.05);
+  transition: transform 0.5s ease-in-out; */
 }
 
 .container {
@@ -36,38 +24,28 @@ body {
 }
 
 .title, .description, .button {
-  font-size: 2rem; /* Larger font size for visibility */
-  opacity: 0; /* Start elements as invisible for the fadeIn effect */
+  color: rgb(62, 2, 77);
+  font-size: 4rem; /* Larger font size for visibility */
 }
 
-.title {
-  animation: fadeInAnimation ease 2s;
-  animation-delay: 0.5s;
-  animation-fill-mode: forwards;
-}
+
 
 .description {
   max-width: 600px; /* Ensure the text is not too wide */
   font-size: 1.5rem; /* Adjusting for readability */
   text-align: center;
-  animation: fadeInAnimation ease 2s;
-  animation-delay: 1s;
-  animation-fill-mode: forwards;
 }
 
 .button {
-  font-family: 'Roboto', sans-serif; /* Override for buttons to maintain readability */
-  font-size: 1rem; /* Adjust button font size for balance */
-  background-color: #100241; /* Soft, food-related color */
-  color: rgb(254, 253, 253);
+  font-family: 'Times New Roman', sans-serif; /* Override for buttons to maintain readability */
+  font-size: 2rem; /* Adjust button font size for balance */
+  background-color: #fefefe; /* Soft, food-related color */
+  color: rgb(62, 2, 77);
   padding: 10px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 15px;
   cursor: pointer;
   margin: 5px;
-  animation: fadeInAnimation ease 2s;
-  animation-delay: 1.5s;
-  animation-fill-mode: forwards;
 }
 .logo {
     max-width: 20%; /* Ensure it's responsive */
