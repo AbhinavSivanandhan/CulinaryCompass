@@ -11,11 +11,17 @@ import styles from './login.module.css';
     const { login } = useAuth();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
 
     // Handle form submission
     const handleSubmit = async (e) => {
       e.preventDefault();
-      login(username, password);
+      setError(null);
+      const er = await login(username, password);
+      // check if error exists and not a json response
+      if (er && er) {
+        setError(er);
+      }
       // Handle login logic
     };
 
@@ -24,6 +30,7 @@ import styles from './login.module.css';
         <h2 className={styles.title}>Login</h2>
         <input type="name" name="username" placeholder="Username" onChange={(e) => setUsername(e.target.value)} className={styles.inputField} required />
         <input type="password" name="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} className={styles.inputField} required />
+        {error && <p color='red'>{error}</p>}
         <button disabled={username == "" || password == ""} type="submit" className={`${styles.button} ${styles.submitButton}`}>Login</button>
       </form>
     );
