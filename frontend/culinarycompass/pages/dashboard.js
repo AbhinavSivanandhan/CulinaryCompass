@@ -19,13 +19,14 @@ const Dashboard = () => {
       .then(response => response.json())
       .then(data => setItems(data.slice(0, 9))) // Taking only the first 9 items
       .catch(error => console.error('Error fetching items:', error));
-    }, []);
 
+    }, []);
+    console.log(user)
     const handleLogout = () => {
         logout();
     };
 
-    const handlerecipe = (title) => {
+    const handleRecipe = (title) => {
         router.push('/recipePage?recipename='+title);
     };
     const handleSearch = () => {
@@ -50,7 +51,7 @@ const Dashboard = () => {
                     <div key={index} className="grid-item"> 
                         {item.image ? <img src={item.image} alt={item.title} /> : null}
                         <p>{item.title}</p>
-                        <button onClick={() => handleRecipe(index)}>View Recipe</button>
+                        <button onClick={() => handleRecipe(item.title)}>View Recipe</button>
                     </div>
                 )) : <p>No items to display</p>}
             </div>
