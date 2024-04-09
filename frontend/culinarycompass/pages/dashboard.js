@@ -1,8 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/context/Authcontext';
-import './dashboard.css'; // Make sure your CSS supports a 3x3 grid display
-
+import './dashboard.css'; 
 const Dashboard = () => {
     const router = useRouter();
     const [items, setItems] = useState([]);      
@@ -29,7 +28,11 @@ const Dashboard = () => {
     const handlerecipe = (title) => {
         router.push('/recipePage?recipename='+title);
     };
+    const handleSearch = () => {
 
+      // Implement search functionality
+
+    };
     return (
         <div className="dashboard-container">
             <nav className="navbar">
