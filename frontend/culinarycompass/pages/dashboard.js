@@ -1,12 +1,20 @@
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
+import { useAuth } from '@/context/Authcontext';
 import './dashboard.css'; // Import your CSS file
 
 const Dashboard = () => {
     const router = useRouter();
+    const { logout, accessToken, refreshToken } = useAuth();
+
+    useEffect(() => {
+      if (!accessToken && !refreshToken) {
+        router.push('/');
+      }
+    }, []);
 
     const handleLogout = () => {
-        router.push('/');
+        logout();
     };
 
     const handlerecipe = () => {

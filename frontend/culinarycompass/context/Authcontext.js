@@ -11,10 +11,11 @@ export const AuthProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(null);
   const [refreshToken, setRefreshToken] = useState(null);
   useEffect(() => {
-    const storedAccessToken = localStorage.getItem('access');
-    const storedRefreshToken = localStorage.getItem('refresh');
+    const storedAccessToken = localStorage.getItem('access') ? localStorage.getItem('access') : null;
+    const storedRefreshToken = localStorage.getItem('refresh') ? localStorage.getItem('refresh') : null;
     setAccessToken(storedAccessToken);
     setRefreshToken(storedRefreshToken);
+    console.log('Access token:', storedAccessToken);
   }, []);
 
   const login = async (username, password) => {
@@ -48,8 +49,9 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setAccessToken(null);
     setRefreshToken(null);
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('access');
+    localStorage.removeItem('refresh');
+    router.push('/');
   };
 
   const register = async (username, first_name, last_name, email, gender, dob, password) => {

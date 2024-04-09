@@ -1,7 +1,17 @@
 // pages/index.js
 import Link from 'next/link';
-
+import { useAuth } from '@/context/Authcontext';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 export default function Home() {
+  const router = useRouter();
+  const { accessToken, refreshToken } = useAuth();
+  useEffect(() => {
+    console.log(accessToken, refreshToken);
+    if (accessToken && refreshToken) {
+      router.push('/dashboard');
+    }
+  });
   return (
     <div className="container">
       <img src="/images/Food_Logo.jpg" alt="Culinary Compass Logo" className="logo" />
