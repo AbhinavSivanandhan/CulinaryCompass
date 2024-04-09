@@ -33,12 +33,18 @@ const Dashboard = () => {
     return (
         <div className="dashboard-container">
             <nav className="navbar">
-                {/* Navbar content */}
+            <div className="navbar-content">
+            <img src="images/Food_Logo.jpg" alt="Logo" className="logo" />
+            </div>
+            <div>
+            <button className="nav-button" onClick={handleSearch}>Search for Recipe</button>
+            <button className="nav-button" onClick={handleLogout}>Logout</button>
+            </div>
             </nav>
             <h1 className="title">Welcome to Culinary Compass</h1>
-            <div className="grid-container"> {/* Make sure to define grid-container in your CSS */}
+            <div className="grid-container">
                 {items.length > 0 ? items.map((item, index) => (
-                    <div key={index} className="grid-item"> {/* grid-item should also be defined in CSS */}
+                    <div key={index} className="grid-item"> 
                         {item.image ? <img src={item.image} alt={item.title} /> : null}
                         <p>{item.title}</p>
                         <button onClick={() => handleRecipe(index)}>View Recipe</button>
