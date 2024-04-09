@@ -26,7 +26,14 @@ export const AuthProvider = ({ children }) => {
         },
         body: JSON.stringify({ username, password }),
       });
-      const data = await response.json();
+      const data = await response;
+      if (!data.ok || data.status === 400 || data.status === 401 || data.status === 403) {
+        const error = await data.json();
+        console.log(error);
+        alert(error.message);
+        return;
+      }
+      console.log(data);
       setAccessToken(data.access);
       setRefreshToken(data.refresh);
       localStorage.setItem('access', data.access);
@@ -54,18 +61,24 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ username, first_name, last_name, email, gender, dob, password }),
         });
         const data = await response.json();
-        console.log(data);
-        setTimeout( function ( ) { alert( "Registration succesful" ); }, 2000 );
-        Router.push('/login');
+        if (response.ok && response.status === 200) {
+          console.log("Registration Successful");
+          router.push('/login');
+        }
+        else {
+          console.log("Registration Failed");
+          alert(data.message+ "\n" + JSON.stringify(data.data));
+        }
     }
     catch (error) {
+      console.log(error);
         console.error('Registration error:', error);
         alert('Registration failed. Please try again.');
     }
   }
 
   return (
-    <AuthContext.Provider value={{ accessToken, refreshToken, login, logout }}>
+    <AuthContext.Provider value={{ accessToken, refreshToken, login, logout, register }}>
       {children}
     </AuthContext.Provider>
   );

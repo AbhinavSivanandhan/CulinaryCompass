@@ -24,7 +24,7 @@ import styles from './login.module.css';
         <h2 className={styles.title}>Login</h2>
         <input type="name" name="username" placeholder="Username" onChange={(e) => setUsername(e.target.value)} className={styles.inputField} required />
         <input type="password" name="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} className={styles.inputField} required />
-        <button type="submit" className={`${styles.button} ${styles.submitButton}`}>Login</button>
+        <button disabled={username == "" || password == ""} type="submit" className={`${styles.button} ${styles.submitButton}`}>Login</button>
       </form>
     );
   };

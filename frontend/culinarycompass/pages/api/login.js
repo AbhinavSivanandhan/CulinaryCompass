@@ -11,9 +11,9 @@ export default async function handler(req, res) {
           body: JSON.stringify({ username, password }),
         });
   
-        if (!response.ok) {
+        if (!response.ok || response.status === 400 || response.status === 401 || response.status === 403) {
           const data = await response.json();
-          throw new Error(data.detail || 'Login failed');
+          res.status(response.status).json(data);
         }  
         const data = await response.json();
         res.status(200).json(data);
