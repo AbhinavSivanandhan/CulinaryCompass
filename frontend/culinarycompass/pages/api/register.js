@@ -17,8 +17,6 @@ export default async function handler(req, res) {
         });
   
         const data = await response.json();
-        console.log('Server response:', data);
-        console.log(response.ok, "response.ok")
         // Return the response from your backend server or any other response as needed
         if ((response.status === 200 || response.status === 201 ) && response.ok) {
         res.status(200).json({ message: 'Registration successful', data });

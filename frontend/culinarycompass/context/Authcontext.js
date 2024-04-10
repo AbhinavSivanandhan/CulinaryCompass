@@ -17,7 +17,6 @@ export const AuthProvider = ({ children }) => {
     const storedRefreshToken = localStorage.getItem('refresh') ? localStorage.getItem('refresh') : null;
     setAccessToken(storedAccessToken);
     setRefreshToken(storedRefreshToken);
-    console.log('Access token:', storedAccessToken);
   }, []);
 
   const login = async (username, password) => {
@@ -30,7 +29,6 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ username, password }),
       });
       const data = await response.json();
-      console.log(response.status);
       if (response.status === 400 || response.status === 401 || response.status === 403) {
 
         // alert("Login Error: "+data);
@@ -76,7 +74,6 @@ export const AuthProvider = ({ children }) => {
       }
     }
     catch (error) {
-      console.log(error);
       console.error('Registration error:', error);
       alert('Registration failed. Please try again.');
     }

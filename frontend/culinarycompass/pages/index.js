@@ -12,7 +12,7 @@ export default function Home() {
     }
   },[accessToken]);
   return (
-    <div className="container">
+    <div className="container max-w-full">
       <img src="/images/Food_Logo.jpg" alt="Culinary Compass Logo" className="logo" />
       <h1 className="title">Welcome to Culinary Compass</h1>
       <p className="description">

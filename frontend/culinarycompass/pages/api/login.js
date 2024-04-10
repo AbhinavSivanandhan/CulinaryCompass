@@ -12,7 +12,6 @@ export default async function handler(req, res) {
       });
       const data = await response.json();
       if (response.status === 400 || response.status === 401 || response.status === 403) {
-        console.log(data, "data 16", response.status);
         // if data contains key 'non_field_errors' then it is a login error, so print the error message
         if (data.non_field_errors) {
           res.status(response.status).json(data.non_field_errors[0]);
