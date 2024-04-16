@@ -197,3 +197,15 @@ food.pkl
 tfidf_vectorizer.pkl
 tfidf_vectorizer1.pkl
 # End of https://www.toptal.com/developers/gitignore/api/django
+backend/my_env/pyvenv.cfg
+backend/my_env/Scripts/activate
+backend/my_env/Scripts/activate.bat
+backend/my_env/Scripts/Activate.ps1
+backend/my_env/Scripts/deactivate.bat
+backend/my_env/Scripts/django-admin.exe
+backend/my_env/Scripts/pip.exe
+backend/my_env/Scripts/pip3.11.exe
+backend/my_env/Scripts/pip3.exe
+backend/my_env/Scripts/python.exe
+backend/my_env/Scripts/pythonw.exe
+backend/my_env/Scripts/sqlformat.exe
