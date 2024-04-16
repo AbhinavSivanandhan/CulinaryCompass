@@ -3,6 +3,8 @@ import json
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from .models import UserSearchHistory
 from .helpers import temp_data
 from .serializers import RecipeListSerialzer
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -12,7 +14,6 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 import pickle
 import numpy as np
 import pandas as pd
-from sklearn.metrics.pairwise import cosine_similarity
 import os
 from django.conf import settings
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -70,7 +71,7 @@ def load_embeddings_and_vectorizer(sampled_data):
     
     return combined_embeddings, vectorizer
 
-def find_similar_recipes(user_input, num_similar=5):
+def find_similar_recipes(user_input, num_similar=6):
     
     data_path = os.path.join(settings.BASE_DIR, 'culinarycompass', 'ml_models', 'food.pkl')
     full_data = pd.read_pickle(data_path)
@@ -100,11 +101,19 @@ def find_similar_recipes(user_input, num_similar=5):
 @permission_classes([IsAuthenticated])
 def recipe_recommendation(request):
     user_input = request.data.get('user_input', '')
-    try:
-        similar_recipe_names = json.loads(find_similar_recipes(user_input))
-        return JsonResponse({'similar_recipes': similar_recipe_names})
-    except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
+    # check if user_input is available in UserSearchHistory and return search_results
+    search_history = UserSearchHistory.objects.filter(search_query=user_input).first()
+    if search_history is not None:
+        return JsonResponse({'similar_recipes':search_history.search_data})
+    else:
+        try:
+            similar_recipe_names = json.loads(find_similar_recipes(user_input))
+            # save search history
+            search_data = {'user_id': request.user.id, 'search_query': user_input, 'search_data': similar_recipe_names}
+            search_history = UserSearchHistory.objects.create(**search_data)
+            return JsonResponse({'similar_recipes': similar_recipe_names})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
 
 class RecipeListAPIView(APIView):
     authentication_classes = [JWTAuthentication]
