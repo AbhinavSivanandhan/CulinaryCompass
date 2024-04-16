@@ -38,6 +38,7 @@ const LoginForm = () => {
       <input type="password" name="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} className={styles.inputField} required />
       {error && <p color='red'>{error}</p>}
       <button disabled={username == "" || password == ""} type="submit" className={`${styles.button} ${styles.submitButton}`}>Login</button>
+      {/* <button  type="submit" className={`${styles.button} ${styles.submitButton}`}>Login</button> */}
     </form>
   );
 };

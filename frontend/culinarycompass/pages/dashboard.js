@@ -13,10 +13,10 @@ import {
 
 const Dashboard = () => {
   const router = useRouter();
-  const [showSearch, setShowSearch] = useState(false); // State to toggle search bar visibility
-  const [searchInput, setSearchInput] = useState(''); // State to hold search input
+  const [showSearch, setShowSearch] = useState(false); 
+  const [searchInput, setSearchInput] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const { logout, accessToken, refreshToken, getUser, user, getRecipeList, recipeList } = useAuth();
+  const { logout, accessToken, refreshToken, getUser, user, getRecipeList, recipeList, searchRecipe, recipe } = useAuth();
 
   useEffect(() => {
     if (!accessToken && !refreshToken) {
@@ -27,6 +27,7 @@ const Dashboard = () => {
   useEffect(() => {
     getUser();
     getRecipeList();
+    searchRecipe();
   }, []);
 
   useEffect(() => {

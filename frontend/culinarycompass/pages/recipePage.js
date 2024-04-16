@@ -5,18 +5,12 @@ import './dashboard.css'; // Import your CSS file
 
 const RecipePage = () => {
     const router = useRouter();
-    // State to manage the selected recipe
-    // const [setSelectedRecipe] = useState(null);
-    // get recipe name from query params
-    const [recipeName, setRecipeName] = useState('');
+// const router = useRouter();/
+    const [recipe, setRecipe] = useState('');
+
     useEffect(() => {
-        if (router.query.recipename) {
-            setRecipeName(router.query.recipe);
-        }
-        else{
-            router.push('/404');
-        }
-    }, []);
+        searchRecipe();
+      }, []);
     // Handler to simulate recipe selection
     const handleRecipeClick = (recipe) => {
         // setSelectedRecipe(1);
