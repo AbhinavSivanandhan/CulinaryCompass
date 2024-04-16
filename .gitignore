@@ -191,5 +191,9 @@ dmypy.json
 #ide
 .vscode/
 
+combined_embeddings.pkl
+combined_embeddings1.pkl
+food.pkl
+tfidf_vectorizer.pkl
+tfidf_vectorizer1.pkl
 # End of https://www.toptal.com/developers/gitignore/api/django
-
