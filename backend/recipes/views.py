@@ -8,7 +8,7 @@ from .serializers import RecipeListSerialzer
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.http import JsonResponse
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 import pickle
 import numpy as np
 import pandas as pd
@@ -51,7 +51,7 @@ def word_embedding(sampled_data, column):
 
 def load_embeddings_and_vectorizer(sampled_data):
     embeddings_path = os.path.join(settings.BASE_DIR, 'culinarycompass', 'ml_models', 'combined_embeddings1.pkl')
-    # vectorizer_path = os.path.join(settings.BASE_DIR, 'culinarycompass', 'ml_models', 'tfidf_vectorizer1.pkl')
+    vectorizer_path = os.path.join(settings.BASE_DIR, 'culinarycompass', 'ml_models', 'tfidf_vectorizer1.pkl')
     try:
         with open(embeddings_path, 'rb') as f:
             combined_embeddings = pickle.load(f)
@@ -61,7 +61,7 @@ def load_embeddings_and_vectorizer(sampled_data):
     try:
         vectorizer = TfidfVectorizer(min_df=5, tokenizer=recipe_tokenizer)
         sampled_data['text_data'] = sampled_data[['name', 'tags', 'description']].astype(str).agg(' '.join, axis=1).str.lower()
-        # vectorized_data = vectorizer.fit_transform(sampled_data['text_data'])
+        vectorized_data = vectorizer.fit_transform(sampled_data['text_data'])
         #with open(vectorizer_path, 'rb') as f:
         #    vectorizer = pd.read_pickle(f)
     except Exception as e:
@@ -96,6 +96,8 @@ def find_similar_recipes(user_input, num_similar=5):
     return similar_recipe_json
 
 @api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def recipe_recommendation(request):
     user_input = request.data.get('user_input', '')
     try:
@@ -111,5 +113,4 @@ class RecipeListAPIView(APIView):
         data = temp_data
         serializer = RecipeListSerialzer(data, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
 
