@@ -70,7 +70,7 @@ def load_embeddings_and_vectorizer(sampled_data):
     
     return combined_embeddings, vectorizer
 
-def find_similar_recipes(user_input, num_similar=5):
+def find_similar_recipes(user_input, num_similar=6):
     
     data_path = os.path.join(settings.BASE_DIR, 'culinarycompass', 'ml_models', 'food.pkl')
     full_data = pd.read_pickle(data_path)
