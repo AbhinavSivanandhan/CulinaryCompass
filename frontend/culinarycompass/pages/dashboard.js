@@ -89,7 +89,7 @@ const Dashboard = () => {
           <div className="loader-container"><div className="loader"></div></div>
         ) : (
           recipeList.length > 0 ? recipeList.slice(0, 9).map((item, index) => (
-            <Card key={item.id} className="mt-6 mb-5 p-8 w-96 flex flex-col items-center" style={{ backgroundColor: '#f5f5f5' }}> 
+            <Card key={item.id} className="mt-6 mb-5 p-8 w-96 flex flex-col items-center " style={{ backgroundColor: '#f5f5f5' }}> 
             <CardHeader color="black" className="w-full">
               <img
                 className="card-image w-full"  /* Ensured full width within the header */
