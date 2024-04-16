@@ -59,10 +59,11 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       <nav className="navbar">
-        <div className="navbar-content">
-          <img src="images/Food_Logo.jpg" alt="Logo" className="logo" />
-          {user ? <span>{user.username}</span> : <span>Loading...</span>}
-        </div>
+      <div className="flex items-center p-2">
+    <img src="/images/Food_Logo.jpg" alt="Logo" className="h-12 mr-4" />
+    {user ? <span className="text-lg font-medium text-gray-800">{user.username}</span> : <span className="text-lg font-medium text-gray-800">Loading...</span>}
+</div>
+
         <div>
           <button className="nav-button" onClick={handleSearch}>Search for Recipe</button>
           <button className="nav-button" onClick={handleLogout}>Logout</button>
@@ -88,7 +89,7 @@ const Dashboard = () => {
           <div className="loader-container"><div className="loader"></div></div>
         ) : (
           recipeList.length > 0 ? recipeList.slice(0, 9).map((item, index) => (
-            <Card key={item.id} className="mt-6 mb-5 p-8 w-96 flex flex-col items-center" style={{ backgroundColor: '#grey' }}> 
+            <Card key={item.id} className="mt-6 mb-5 p-8 w-96 flex flex-col items-center" style={{ backgroundColor: '#f5f5f5' }}> 
             <CardHeader color="black" className="w-full">
               <img
                 className="card-image w-full"  /* Ensured full width within the header */
