@@ -27,7 +27,6 @@ const Dashboard = () => {
   useEffect(() => {
     getUser();
     getRecipeList();
-    // Removed fetch due to comment out of setItems
   }, []);
 
   useEffect(() => {
