@@ -1,4 +1,5 @@
 # culinarycompass/views.py
+import json
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -50,27 +51,22 @@ def word_embedding(sampled_data, column):
 
 def load_embeddings_and_vectorizer(sampled_data):
     embeddings_path = os.path.join(settings.BASE_DIR, 'culinarycompass', 'ml_models', 'combined_embeddings1.pkl')
-    vectorizer_path = os.path.join(settings.BASE_DIR, 'culinarycompass', 'ml_models', 'tfidf_vectorizer1.pkl')
-    print(embeddings_path)
-    print(vectorizer_path)
+    # vectorizer_path = os.path.join(settings.BASE_DIR, 'culinarycompass', 'ml_models', 'tfidf_vectorizer1.pkl')
     try:
         with open(embeddings_path, 'rb') as f:
             combined_embeddings = pickle.load(f)
-        print(combined_embeddings)
     except Exception as e:
         print({'error': str(e)})
         return JsonResponse({'error': str(e)}, status=500)
     try:
         vectorizer = TfidfVectorizer(min_df=5, tokenizer=recipe_tokenizer)
         sampled_data['text_data'] = sampled_data[['name', 'tags', 'description']].astype(str).agg(' '.join, axis=1).str.lower()
-        vectorized_data = vectorizer.fit_transform(sampled_data['text_data'])
+        # vectorized_data = vectorizer.fit_transform(sampled_data['text_data'])
         #with open(vectorizer_path, 'rb') as f:
         #    vectorizer = pd.read_pickle(f)
     except Exception as e:
         print({'error58': str(e)})
         return JsonResponse({'error': str(e)}, status=500)
-    
-    print(f"Type of vectorizer loaded: {type(vectorizer)}")
     
     return combined_embeddings, vectorizer
 
@@ -79,9 +75,7 @@ def find_similar_recipes(user_input, num_similar=5):
     data_path = os.path.join(settings.BASE_DIR, 'culinarycompass', 'ml_models', 'food.pkl')
     full_data = pd.read_pickle(data_path)
     sampled_data = full_data.sample(frac=0.25, random_state=42)
-    print("\n\n\n\n\n\n"+"ml models loaded 58"+"\n\n\n\n\n\n\n")
     combined_embeddings, vectorizer = load_embeddings_and_vectorizer(sampled_data)
-    print("\n\n\n\n\n\n"+"ml models loaded"+"\n\n\n\n\n\n\n")
     user_data = pd.DataFrame({'text_data': [user_input]})
     user_data['text_data'] = user_data['text_data'].str.lower()
     user_vectorized_data = vectorizer.transform(user_data['text_data'])
@@ -90,16 +84,22 @@ def find_similar_recipes(user_input, num_similar=5):
         user_vectorized_data = np.pad(user_vectorized_data.toarray(), ((0, 0), (0, num_missing_features)))
     cosine_sim_matrix = cosine_similarity(user_vectorized_data, combined_embeddings)
     similar_recipes = cosine_sim_matrix[0].argsort()[::-1][:num_similar]
-    similar_recipe_names = sampled_data.iloc[similar_recipes]['name'].tolist()
-    return similar_recipe_names
+    # create a json of n'name', 'id', 'minutes', 'contributor_id', 'submitted', 'tags',
+    #    'n_steps', 'steps', 'description', 'ingredients', 'n_ingredients',
+    #    'calories', 'total_fat', 'sugar', 'sodium', 'protein', 'saturated_fat',
+    #    'carbohydrates', 'dairy-free',
+    #    'gluten-free', 'low-carb', 'vegan', 'vegetarian', 'recipe_id',
+    #    'average_rating'
+    fields = ['name', 'id', 'minutes', 'tags', 'n_steps', 'steps', 'description', 'ingredients', 'n_ingredients', 'calories', 'total_fat', 'sugar', 'sodium', 'protein', 'saturated_fat', 'carbohydrates', 'dairy-free', 'gluten-free', 'low-carb', 'vegan', 'vegetarian', 'recipe_id', 'average_rating']
+    similar_recipe_json = sampled_data.iloc[similar_recipes][fields].to_json(orient='records')
+    # similar_recipe_names = sampled_data.iloc[similar_recipes]['name'].tolist()
+    return similar_recipe_json
 
 @api_view(['POST'])
 def recipe_recommendation(request):
     user_input = request.data.get('user_input', '')
-    
-    
     try:
-        similar_recipe_names = find_similar_recipes(user_input)
+        similar_recipe_names = json.loads(find_similar_recipes(user_input))
         return JsonResponse({'similar_recipes': similar_recipe_names})
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
