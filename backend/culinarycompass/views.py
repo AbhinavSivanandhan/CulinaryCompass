@@ -1,4 +1,5 @@
 # culinarycompass/views.py
+
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 import pickle
@@ -44,12 +45,9 @@ def word_embedding(sampled_data, column):
 def load_embeddings_and_vectorizer(sampled_data):
     embeddings_path = os.path.join(settings.BASE_DIR, 'culinarycompass', 'ml_models', 'combined_embeddings1.pkl')
     vectorizer_path = os.path.join(settings.BASE_DIR, 'culinarycompass', 'ml_models', 'tfidf_vectorizer1.pkl')
-    print(embeddings_path)
-    print(vectorizer_path)
     try:
         with open(embeddings_path, 'rb') as f:
             combined_embeddings = pickle.load(f)
-        print(combined_embeddings)
     except Exception as e:
         print({'error': str(e)})
         return JsonResponse({'error': str(e)}, status=500)
@@ -60,10 +58,9 @@ def load_embeddings_and_vectorizer(sampled_data):
         #with open(vectorizer_path, 'rb') as f:
         #    vectorizer = pd.read_pickle(f)
     except Exception as e:
-        print({'error58': str(e)})
+        print({'error': str(e)})
         return JsonResponse({'error': str(e)}, status=500)
     
-    print(f"Type of vectorizer loaded: {type(vectorizer)}")
     
     return combined_embeddings, vectorizer
 
@@ -72,9 +69,7 @@ def find_similar_recipes(user_input, num_similar=5):
     data_path = os.path.join(settings.BASE_DIR, 'culinarycompass', 'ml_models', 'food.pkl')
     full_data = pd.read_pickle(data_path)
     sampled_data = full_data.sample(frac=0.25, random_state=42)
-    print("\n\n\n\n\n\n"+"ml models loaded 58"+"\n\n\n\n\n\n\n")
     combined_embeddings, vectorizer = load_embeddings_and_vectorizer(sampled_data)
-    print("\n\n\n\n\n\n"+"ml models loaded"+"\n\n\n\n\n\n\n")
     user_data = pd.DataFrame({'text_data': [user_input]})
     user_data['text_data'] = user_data['text_data'].str.lower()
     user_vectorized_data = vectorizer.transform(user_data['text_data'])
@@ -96,3 +91,4 @@ def recipe_recommendation(request):
         return JsonResponse({'similar_recipes': similar_recipe_names})
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+
