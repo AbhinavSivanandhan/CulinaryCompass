@@ -1,113 +1,123 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import './dashboard.css'; // Import your CSS file
-import { useAuth } from '@/context/Authcontext'; // Import the useAuth hook
-
+import './recipePage.css';
+import { useAuth } from '@/context/Authcontext';
 
 const RecipePage = () => {
     const router = useRouter();
-    // State to manage the selected recipe
-    // const [setSelectedRecipe] = useState(null);
-    // get recipe name from query params
     const [recipeName, setRecipeName] = useState('');
     const [isLoading, setIsLoading] = useState(true);
-    const {getRecipes, recipes} = useAuth();
+    const { getRecipes, recipes, getUser, user } = useAuth();
+    const [showDetails, setShowDetails] = useState(false);
+    const [selectedRecipe, setSelectedRecipe] = useState(null); // State to store the selected recipe
+    const [pageLoaded, setPageLoaded] = useState(false);
+    
     useEffect(() => {
+        getUser();
         if (router.query.recipename) {
             setRecipeName(router.query.recipename);
             getRecipes(router.query.recipename);
-        }
-        else{
+        } else {
             router.push('/404');
         }
-    }, []);
+    }, [router.query.recipename]);
+
     useEffect(() => {
-        if(recipes !== null && recipes !== undefined && recipeName !== ''){
+        if (recipes && recipeName) {
             setIsLoading(false);
         }
-    },[recipes, recipeName]);
-    // Handler to simulate recipe selection
-    const handleRecipeClick = (recipe) => {
-        // setSelectedRecipe(1);
-    };
-    console.log(recipes)
-    console.log("hi")
-    console.log(recipes?.similar_recipes[0].ingredients)
+    }, [recipes, recipeName]);
+
     const handleLogout = () => {
         router.push('/');
     };
 
     const handleSearch = () => {
-        // Implement search functionality
+        router.push('/');
+        // router.push('/dashboard');
     };
 
-    const selectedRecipe =  {
-        title: 'Grilled Chicken',
-        imageUrl: 'images/Chicken_Manchurian.jpg',
-        ingredients: [
-          'Chicken breasts',
-          'Olive oil',
-          'Garlic',
-          'Lemon juice',
-          'Herbs',
-        ],
-        steps: [
-          'Preheat the grill to medium-high heat.',
-          'Mix olive oil, garlic, lemon juice, and herbs in a bowl.',
-          'Marinate the chicken in the mixture for at least 30 minutes.',
-          'Grill the chicken until it is cooked through, about 6-8 minutes per side.',
-        ],
-      };
+    // Function to toggle modal visibility and set selected recipe
+    const handleRecipeClick = (recipe) => {
+        setSelectedRecipe(recipe);
+        setShowDetails(true);
+    };
+    // const stepsArray = selectedRecipe.steps ? JSON.parse(selectedRecipe.steps.replace(/'/g, '"')) : [];
+                           
+    function parseSteps(stepsStr) {
+        try {
+            // Replace single quotes with double quotes and parse as JSON
+            return JSON.parse(stepsStr.replace(/'/g, '"'));
+        } catch (e) {
+            console.error("Error parsing steps:", e);
+            return [];  // Return an empty array in case of error
+        }
+    }
 
+    const stepsArray = selectedRecipe ? parseSteps(selectedRecipe.steps) : [];
+    const ingredientsArray = selectedRecipe ? parseSteps(selectedRecipe.steps) : [];
     return (
-        <div className="dashboard-container">
-            <nav className="navbar">
+        <div className={`dashboard-container ${showDetails ? 'blur-effect' : ''}`}>
+            <nav className={`navbar ${showDetails ? 'blur-effect' : ''}`}>
                 <div className="navbar-content">
-                    <img src="images/Food_Logo.jpg" alt="Logo" className="logo" />
+                    <img src="/images/Food_Logo.jpg" alt="Logo" className="logo" />
+                    {user ? (
+                        <span className="text-lg font-medium text-gray-800">{user.username}</span>
+                    ) : (
+                        <span className="text-lg font-medium text-gray-800">Loading...</span>
+                    )}
                 </div>
                 <div>
-                    <button className="nav-button" onClick={handleSearch}>Search for Recipe</button>
+                    <button className="nav-button" onClick={handleSearch}>Dashboard</button>
                     <button className="nav-button" onClick={handleLogout}>Logout</button>
                 </div>
             </nav>
-            {(
-                <div className="recipe-details">
-                    <h2>{"Grilled Boneless Skinless Chicken Thighs"}</h2>
-                    
+            <h1 className="title">{recipeName}</h1>
+            {!isLoading && recipes && recipes.similar_recipes && recipes.similar_recipes.length > 0 ? (
+                <div className="flex flex-wrap m-8">
+                    {recipes.similar_recipes.map((recipe, index) => {
+                        return (
+                            <div className="recipe-details card" key={index} onClick={() => handleRecipeClick(recipe)}>
+                                <img src="/images/Food_Logo.jpg" alt="Food Logo" className="card-image" />
+                                <h2 className="recipe-title">{recipe.name}</h2>
+                                
+                                <p>Minutes: {recipe.minutes}</p>
+                                <p>Number of Steps: {recipe.n_steps}</p>
+                            </div>
+                        );
+                    })}
+                </div>
+            ) : isLoading ? (
+                <div className="loader-container">
+                    <div className="loader"></div>
+                </div>
+            ) : (
+                <p>No recipe found</p>
+            )}
+            {showDetails && selectedRecipe && (
+                <div className="overlay" onClick={() => setShowDetails(false)}>
+                    <div className="modal">
+                        <div className="modal-content">
+                            <span className="close" onClick={() => setShowDetails(false)}>&times;</span>
+                            <h2 className="recipe-title">{selectedRecipe.name}</h2>
+                            <br></br>
+                           <h3> <b>Description:</b> {selectedRecipe.description} </h3>
+                            <b>Ingredients:</b>
+                            <ul className="ingredients-list">
+                            {ingredientsArray.map((step, index) => (
+                                    <li key={index}>{step}</li>
+                                ))}
+                            </ul>
+                            <b>Steps:</b>
+                             <ol className="steps-list">
+                 {stepsArray.map((step, index) => (
+                                    <li key={index}>{step}</li>
+                                ))}
+            </ol>
+                        </div>
+                    </div>
                 </div>
             )}
-
-
-{!isLoading && recipes && recipes.similar_recipes && recipes.similar_recipes.length > 0 && (
-                <div className="recipe-details">
-                    <h2>{recipes.similar_recipes[0].name}</h2>
-                    <p>Description: {recipes.similar_recipes[0].description}</p>
-                    <p>Minutes: {recipes.similar_recipes[0].minutes}</p>
-                    <p>Tags: {recipes.similar_recipes[0].tags}</p>
-                    <p>Number of Steps: {recipes.similar_recipes[0].n_steps}</p>
-                    <h3>Ingredients:</h3>
-                    <ul>
-                        {!isLoading&&recipes.similar_recipes[0].ingredients}
-                    </ul>
-                    {recipes.similar_recipes[0].steps && Array.isArray(recipes.similar_recipes[0].steps) && (
-    <div>
-        <h3>Steps:</h3>
-        <ol>
-            {recipes.similar_recipes[0].steps.map((step, index) => (
-                <li key={index}>{step}</li>
-            ))}
-        </ol>
-    </div>
-)}
-                </div>
-            )}
-
-
-
-
-            {/* Handle the case where recipe data is still loading or unavailable */}
-            {isLoading && <p>Loading...</p>}
-            {!isLoading && (!recipes || recipes.similar_recipes.length === 0) && <p>No recipe found</p>}
         </div>
     );
 };

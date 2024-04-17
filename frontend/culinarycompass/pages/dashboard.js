@@ -13,6 +13,7 @@ import {
 
 const Dashboard = () => {
   const router = useRouter();
+  const [pageLoaded, setPageLoaded] = useState(false);
   const [showSearch, setShowSearch] = useState(false); 
   const [searchInput, setSearchInput] = useState('');
   const [isLoading, setIsLoading] = useState(true);
@@ -23,17 +24,45 @@ const Dashboard = () => {
       router.push('/');
     }
   }, [accessToken, refreshToken, router]);
+ 
 
   useEffect(() => {
+    
+    // router.reload()
     getUser();
     getRecipeList();
     // searchRecipe();
   }, []);
 
+  
+  // useEffect(() => {
+  //   console.log("Effect triggered. Reloading dashboard page...");
+  //   router.reload();
+
+  //   // Cleanup function to prevent multiple reloads
+  //   return () => {
+  //     console.log("Cleanup function triggered.");
+  //   };
+  // }, []);
+
+  // useEffect(() => {
+  //   // setPageLoaded(true);
+  //   console.log("Effect triggered. Page loaded:", pageLoaded);
+  //   if (!pageLoaded) {
+  //     // Set pageLoaded to true to prevent further reloads
+  //     setPageLoaded(true);
+  //     // router.reload();
+      
+  //     console.log("Page loading for the first time, reloading...", pageLoaded);
+     
+  //   }
+  // }, [pageLoaded]);
+
   useEffect(() => {
     if (user && recipeList) {
       setIsLoading(false);
     }
+    // router.reload();
   }, [user, recipeList]);
 
   const handleLogout = () => {
