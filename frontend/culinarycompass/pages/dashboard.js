@@ -27,7 +27,7 @@ const Dashboard = () => {
   useEffect(() => {
     getUser();
     getRecipeList();
-    searchRecipe();
+    // searchRecipe();
   }, []);
 
   useEffect(() => {

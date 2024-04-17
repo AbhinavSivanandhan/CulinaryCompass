@@ -14,8 +14,8 @@ const RecipePage = () => {
     const {getRecipes, recipes} = useAuth();
     useEffect(() => {
         if (router.query.recipename) {
-            setRecipeName(router.query.recipe);
-            getRecipes(router.query.recipe);
+            setRecipeName(router.query.recipename);
+            getRecipes(router.query.recipename);
         }
         else{
             router.push('/404');
@@ -31,6 +31,8 @@ const RecipePage = () => {
         // setSelectedRecipe(1);
     };
     console.log(recipes)
+    console.log("hi")
+    console.log(recipes?.similar_recipes[0].ingredients)
     const handleLogout = () => {
         router.push('/');
     };
@@ -68,17 +70,6 @@ const RecipePage = () => {
                     <button className="nav-button" onClick={handleLogout}>Logout</button>
                 </div>
             </nav>
-            {/* <div className="center">
-                <h1 className="title">Select a Recipe</h1>
-                <div className="imageContainer">
-                    {recipes.map((recipe) => (
-                        <button key={recipe.id} className="button" onClick={() => handleRecipeClick(recipe)}>
-                            {recipe.title}
-                        </button>
-                    ))}
-                </div>
-            </div> */}
-            {/* Conditionally render the selected recipe details */}
             {(
                 <div className="recipe-details">
                     <h2>{"Grilled Boneless Skinless Chicken Thighs"}</h2>
@@ -87,24 +78,36 @@ const RecipePage = () => {
             )}
 
 
-            {selectedRecipe && (
+{!isLoading && recipes && recipes.similar_recipes && recipes.similar_recipes.length > 0 && (
                 <div className="recipe-details">
-                    <h2>{selectedRecipe.title}</h2>
-                    <img src={selectedRecipe.imageUrl} alt={selectedRecipe.title} className="recipe-image" />
-                    <h3>Ingredients</h3>
-                    <ul className="ingredients-list">
-                        {selectedRecipe.ingredients.map((ingredient, index) => (
-                            <li key={index}>{ingredient}</li>
-                        ))}
+                    <h2>{recipes.similar_recipes[0].name}</h2>
+                    <p>Description: {recipes.similar_recipes[0].description}</p>
+                    <p>Minutes: {recipes.similar_recipes[0].minutes}</p>
+                    <p>Tags: {recipes.similar_recipes[0].tags}</p>
+                    <p>Number of Steps: {recipes.similar_recipes[0].n_steps}</p>
+                    <h3>Ingredients:</h3>
+                    <ul>
+                        {!isLoading&&recipes.similar_recipes[0].ingredients}
                     </ul>
-                    <h3>Preparation Steps</h3>
-                    <ol className="steps-list">
-                        {selectedRecipe.steps.map((step, index) => (
-                            <li key={index}>{step}</li>
-                        ))}
-                    </ol>
+                    {recipes.similar_recipes[0].steps && Array.isArray(recipes.similar_recipes[0].steps) && (
+    <div>
+        <h3>Steps:</h3>
+        <ol>
+            {recipes.similar_recipes[0].steps.map((step, index) => (
+                <li key={index}>{step}</li>
+            ))}
+        </ol>
+    </div>
+)}
                 </div>
             )}
+
+
+
+
+            {/* Handle the case where recipe data is still loading or unavailable */}
+            {isLoading && <p>Loading...</p>}
+            {!isLoading && (!recipes || recipes.similar_recipes.length === 0) && <p>No recipe found</p>}
         </div>
     );
 };
