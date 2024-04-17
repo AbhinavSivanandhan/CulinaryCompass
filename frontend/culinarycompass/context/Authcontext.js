@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
   const [refreshToken, setRefreshToken] = useState(null);
   const [user, setUser] = useState(null);
   const [recipeList, setRecipeList] = useState(null);
-  const [recipe, setRecipe] = useState(null);
+  const [recipes, setRecipes] = useState(null);
   useEffect(() => {
     const storedAccessToken = localStorage.getItem('access') ? localStorage.getItem('access') : null;
     const storedRefreshToken = localStorage.getItem('refresh') ? localStorage.getItem('refresh') : null;
@@ -118,29 +118,29 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
-  const searchRecipe = async (user_input) => {
+  const getRecipes = async (search_term) => {
     try {
-      const response = await fetch('/api/searchRecipe/', {
-        method: 'GET',
+      const response = await fetch('/api/getRecipes/', {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${accessToken}`,
-          body: JSON.stringify({ user_input }),
         },
+        body: JSON.stringify({ "user_input": search_term }),
       });
       const data = await response.json();
       if (response.ok && response.status === 200) {
-        setRecipe(data);
+        setRecipes(data);
       }
     }
     catch (error) {
       console.error('Recipe List error:', error);
     }
   }
-
+  
 
   return (
-    <AuthContext.Provider value={{ accessToken, refreshToken, login, logout, register,getUser, user , getRecipeList, recipeList, searchRecipe, recipe }}>
+    <AuthContext.Provider value={{ accessToken, refreshToken, login, logout, register,getUser, user , getRecipeList, recipeList, getRecipes, recipes }}>
       {children}
     </AuthContext.Provider>
   );

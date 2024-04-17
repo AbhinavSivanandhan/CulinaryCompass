@@ -3,7 +3,6 @@ import json
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
 from .models import UserSearchHistory
 from .helpers import temp_data
 from .serializers import RecipeListSerialzer
@@ -24,7 +23,6 @@ from gensim.models import Word2Vec
 from nltk.stem import PorterStemmer
 from nltk.corpus import stopwords
 import string
-#from .ml_utils import recipe_tokenizer
 
 nltk.download('stopwords')
 stemmer = PorterStemmer()
@@ -63,8 +61,6 @@ def load_embeddings_and_vectorizer(sampled_data):
         vectorizer = TfidfVectorizer(min_df=5, tokenizer=recipe_tokenizer)
         sampled_data['text_data'] = sampled_data[['name', 'tags', 'description']].astype(str).agg(' '.join, axis=1).str.lower()
         vectorized_data = vectorizer.fit_transform(sampled_data['text_data'])
-        #with open(vectorizer_path, 'rb') as f:
-        #    vectorizer = pd.read_pickle(f)
     except Exception as e:
         print({'error58': str(e)})
         return JsonResponse({'error': str(e)}, status=500)
@@ -85,12 +81,6 @@ def find_similar_recipes(user_input, num_similar=6):
         user_vectorized_data = np.pad(user_vectorized_data.toarray(), ((0, 0), (0, num_missing_features)))
     cosine_sim_matrix = cosine_similarity(user_vectorized_data, combined_embeddings)
     similar_recipes = cosine_sim_matrix[0].argsort()[::-1][:num_similar]
-    # create a json of n'name', 'id', 'minutes', 'contributor_id', 'submitted', 'tags',
-    #    'n_steps', 'steps', 'description', 'ingredients', 'n_ingredients',
-    #    'calories', 'total_fat', 'sugar', 'sodium', 'protein', 'saturated_fat',
-    #    'carbohydrates', 'dairy-free',
-    #    'gluten-free', 'low-carb', 'vegan', 'vegetarian', 'recipe_id',
-    #    'average_rating'
     fields = ['name', 'id', 'minutes', 'tags', 'n_steps', 'steps', 'description', 'ingredients', 'n_ingredients', 'calories', 'total_fat', 'sugar', 'sodium', 'protein', 'saturated_fat', 'carbohydrates', 'dairy-free', 'gluten-free', 'low-carb', 'vegan', 'vegetarian', 'recipe_id', 'average_rating']
     similar_recipe_json = sampled_data.iloc[similar_recipes][fields].to_json(orient='records')
     # similar_recipe_names = sampled_data.iloc[similar_recipes]['name'].tolist()

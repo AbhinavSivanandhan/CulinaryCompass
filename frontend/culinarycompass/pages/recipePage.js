@@ -1,21 +1,36 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import './dashboard.css'; // Import your CSS file
+import { useAuth } from '@/context/Authcontext'; // Import the useAuth hook
 
 
 const RecipePage = () => {
     const router = useRouter();
-// const router = useRouter();/
-    const [recipe, setRecipe] = useState('');
-
+    // State to manage the selected recipe
+    // const [setSelectedRecipe] = useState(null);
+    // get recipe name from query params
+    const [recipeName, setRecipeName] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
+    const {getRecipes, recipes} = useAuth();
     useEffect(() => {
-        searchRecipe();
-      }, []);
+        if (router.query.recipename) {
+            setRecipeName(router.query.recipe);
+            getRecipes(router.query.recipe);
+        }
+        else{
+            router.push('/404');
+        }
+    }, []);
+    useEffect(() => {
+        if(recipes !== null && recipes !== undefined && recipeName !== ''){
+            setIsLoading(false);
+        }
+    },[recipes, recipeName]);
     // Handler to simulate recipe selection
     const handleRecipeClick = (recipe) => {
         // setSelectedRecipe(1);
     };
-
+    console.log(recipes)
     const handleLogout = () => {
         router.push('/');
     };
