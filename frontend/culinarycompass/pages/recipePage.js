@@ -5,18 +5,21 @@ import { useAuth } from '@/context/Authcontext';
 
 const RecipePage = () => {
     const router = useRouter();
+    const [firstLoad, setFirstLoad] = useState(true);
     const [recipeName, setRecipeName] = useState('');
     const [isLoading, setIsLoading] = useState(true);
-    const { getRecipes, recipes, getUser, user } = useAuth();
+    const { getRecipes, recipes, getUser, user, getRecipeImages, recipeImages } = useAuth();
     const [showDetails, setShowDetails] = useState(false);
-    const [selectedRecipe, setSelectedRecipe] = useState(null); // State to store the selected recipe
+    const [selectedRecipe, setSelectedRecipe] = useState(null);
     const [pageLoaded, setPageLoaded] = useState(false);
-    
+    const [recipeImagesMap, setRecipeImagesMap] = useState({});
+
     useEffect(() => {
         getUser();
         if (router.query.recipename) {
             setRecipeName(router.query.recipename);
             getRecipes(router.query.recipename);
+            getRecipeImages(router.query.recipename);
         } else {
             router.push('/404');
         }
@@ -28,13 +31,44 @@ const RecipePage = () => {
         }
     }, [recipes, recipeName]);
 
+
+    useEffect(() => {
+        if (recipes && recipes.similar_recipes && recipes.similar_recipes.length > 0) {
+            setIsLoading(true); // Set loading to true while images are being fetched
+            Promise.all(recipes.similar_recipes.map(recipe => {
+                return getRecipeImages(recipe.name)
+                    .then(imageUrl => {
+                        console.log("Preimagess");
+                        console.log(recipeImages);
+                        console.log(imageUrl);
+                        console.log("imagess");
+                        return { name: recipe.name, image: imageUrl };
+                    })
+                    .catch(error => {
+                        console.error(`Failed to load image for ${recipe.name}:`, error);
+                        return { name: recipe.name, image: '/images/default_food.jpg' }; // Default image on error
+                    });
+            })).then(results => {
+                const newImageMap = results.reduce((map, item) => {
+                    map[item.name] = item.image; // Map recipe name to its image URL
+                    return map;
+                }, {});
+                setRecipeImagesMap(newImageMap);
+                setIsLoading(false); // Set loading to false after all images are fetched
+            });
+        }
+    }, [recipes]);
+    
+    
+
     const handleLogout = () => {
         router.push('/');
     };
 
     const handleSearch = () => {
-        router.push('/');
-        // router.push('/dashboard');
+        // router.reload();
+        // router.push('/');
+        router.push('/dashboard');
     };
 
     // Function to toggle modal visibility and set selected recipe
@@ -56,11 +90,15 @@ const RecipePage = () => {
 
     const stepsArray = selectedRecipe ? parseSteps(selectedRecipe.steps) : [];
     const ingredientsArray = selectedRecipe ? parseSteps(selectedRecipe.steps) : [];
+    // console.log("loadImage");
+    // console.log(recipeImages);
+    // { name: recipe.name, image: imageUrl }
     return (
         <div className={`dashboard-container ${showDetails ? 'blur-effect' : ''}`}>
             <nav className={`navbar ${showDetails ? 'blur-effect' : ''}`}>
                 <div className="navbar-content">
                     <img src="/images/Food_Logo.jpg" alt="Logo" className="logo" />
+                    
                     {user ? (
                         <span className="text-lg font-medium text-gray-800">{user.username}</span>
                     ) : (
@@ -74,19 +112,19 @@ const RecipePage = () => {
             </nav>
             <h1 className="title">{recipeName}</h1>
             {!isLoading && recipes && recipes.similar_recipes && recipes.similar_recipes.length > 0 ? (
-                <div className="flex flex-wrap m-8">
-                    {recipes.similar_recipes.map((recipe, index) => {
-                        return (
-                            <div className="recipe-details card" key={index} onClick={() => handleRecipeClick(recipe)}>
-                                <img src="/images/Food_Logo.jpg" alt="Food Logo" className="card-image" />
-                                <h2 className="recipe-title">{recipe.name}</h2>
-                                
-                                <p>Minutes: {recipe.minutes}</p>
-                                <p>Number of Steps: {recipe.n_steps}</p>
-                            </div>
-                        );
-                    })}
-                </div>
+               <div className="flex flex-wrap m-8">
+               {recipes.similar_recipes.map((recipe, index) => {
+                   return (
+                       <div className="recipe-details card" key={index} onClick={() => handleRecipeClick(recipe)}>
+                           <img src={recipeImagesMap[recipe.name]} alt={recipe.name} className="card-image" />
+                           <h2 className="recipe-title">{recipe.name}</h2>
+                           <p>Minutes: {recipe.minutes}</p>
+                           <p>Number of Steps: {recipe.n_steps}</p>
+                       </div>
+                   );
+               })}
+           </div>
+           
             ) : isLoading ? (
                 <div className="loader-container">
                     <div className="loader"></div>

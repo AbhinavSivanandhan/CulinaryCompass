@@ -13,6 +13,8 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [recipeList, setRecipeList] = useState(null);
   const [recipes, setRecipes] = useState(null);
+  const [recipeImages, setRecipeImages] = useState(null);
+
   useEffect(() => {
     const storedAccessToken = localStorage.getItem('access') ? localStorage.getItem('access') : null;
     const storedRefreshToken = localStorage.getItem('refresh') ? localStorage.getItem('refresh') : null;
@@ -31,8 +33,6 @@ export const AuthProvider = ({ children }) => {
       });
       const data = await response.json();
       if (response.status === 400 || response.status === 401 || response.status === 403) {
-
-        // alert("Login Error: "+data);
         return data;
       }
       else if (response.status === 200) {
@@ -138,9 +138,35 @@ export const AuthProvider = ({ children }) => {
     }
   }
   
+  const getRecipeImages = async (search_term) => {
+    try {
+      const response = await fetch(`api/getRecipeImages?search=${search_term}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Basic Og==`,
+        },
+      });
+      const data = await response.json();
+      if (response.ok) {
+        console.log("settingimage");
+        setRecipeImages(data[0].full);
+        return data[0].full;
+        // return 
+      } else {
+        console.error('Failed to fetch images:', data);
+        setRecipeImages(null);
+      }
+
+    } catch (error) {
+      console.error('Error fetching images:', error);
+      setRecipeImages(null);
+    }
+  }
+
+
 
   return (
-    <AuthContext.Provider value={{ accessToken, refreshToken, login, logout, register,getUser, user , getRecipeList, recipeList, getRecipes, recipes }}>
+    <AuthContext.Provider value={{ accessToken, refreshToken, login, logout, register,getUser, user , getRecipeList, recipeList, getRecipes, recipes, getRecipeImages, recipeImages }}>
       {children}
     </AuthContext.Provider>
   );
