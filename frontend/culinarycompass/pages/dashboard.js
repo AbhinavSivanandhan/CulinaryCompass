@@ -17,7 +17,7 @@ const Dashboard = () => {
   const [showSearch, setShowSearch] = useState(false); 
   const [searchInput, setSearchInput] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const { logout, accessToken, refreshToken, getUser, user, getRecipeList, recipeList, searchRecipe, recipe } = useAuth();
+  const { logout, accessToken, refreshToken, user, recipeList,dashboard_init, searchRecipe, recipe } = useAuth();
 
   useEffect(() => {
     if (!accessToken && !refreshToken) {
@@ -27,42 +27,15 @@ const Dashboard = () => {
  
 
   useEffect(() => {
-    
     // router.reload()
-    getUser();
-    getRecipeList();
+    dashboard_init();
     // searchRecipe();
   }, []);
-
-  
-  // useEffect(() => {
-  //   console.log("Effect triggered. Reloading dashboard page...");
-  //   router.reload();
-
-  //   // Cleanup function to prevent multiple reloads
-  //   return () => {
-  //     console.log("Cleanup function triggered.");
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   // setPageLoaded(true);
-  //   console.log("Effect triggered. Page loaded:", pageLoaded);
-  //   if (!pageLoaded) {
-  //     // Set pageLoaded to true to prevent further reloads
-  //     setPageLoaded(true);
-  //     // router.reload();
-      
-  //     console.log("Page loading for the first time, reloading...", pageLoaded);
-     
-  //   }
-  // }, [pageLoaded]);
 
   useEffect(() => {
     if (user && recipeList) {
       setIsLoading(false);
     }
-    // router.reload();
   }, [user, recipeList]);
 
   const handleLogout = () => {
@@ -123,16 +96,16 @@ const Dashboard = () => {
             <CardHeader color="black" className="w-full">
               <img
                 className="card-image w-full"  /* Ensured full width within the header */
-                src={item.image}
+                src={item.image_url}
                 alt="card-image"
               />
             </CardHeader>
             <CardBody className="w-full text-center">  
               <Typography style={{ fontWeight: 'bold' }} variant="h5" color="blue" className="mb-2">
-                {item.title}
+                {item.name}
               </Typography>
               <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                {item.description}
               </Typography>
             </CardBody>
             <CardFooter className="card-footer">

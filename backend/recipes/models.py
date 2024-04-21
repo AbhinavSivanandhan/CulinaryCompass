@@ -25,3 +25,6 @@ class SampleRecipe(models.Model):
     ingredients = ArrayField(models.CharField(max_length=10000))
     n_ingredients = models.IntegerField()
     image_url = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return self.user_id

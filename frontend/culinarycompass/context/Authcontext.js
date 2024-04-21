@@ -81,6 +81,9 @@ export const AuthProvider = ({ children }) => {
   }
 
   const getUser = async () => {
+    if (!accessToken) {
+      return;
+    }
     try {
       const response = await fetch('/api/getUser/', {
         method: 'GET',
@@ -100,6 +103,9 @@ export const AuthProvider = ({ children }) => {
   }
 
   const getRecipeList = async () => {
+    if (!accessToken) {
+      return;
+    }
     try {
       const response = await fetch('/api/getRecipeList/', {
         method: 'GET',
@@ -163,10 +169,14 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
+  const dashboard_init = async () => {
+    getUser();
+    getRecipeList();
+  }
 
 
   return (
-    <AuthContext.Provider value={{ accessToken, refreshToken, login, logout, register,getUser, user , getRecipeList, recipeList, getRecipes, recipes, getRecipeImages, recipeImages }}>
+    <AuthContext.Provider value={{ accessToken, refreshToken, login, logout, register, user , recipeList, getRecipes, recipes, getRecipeImages, recipeImages, dashboard_init }}>
       {children}
     </AuthContext.Provider>
   );

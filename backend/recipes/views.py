@@ -1,9 +1,10 @@
 # culinarycompass/views.py
 import json
+import random
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import UserSearchHistory
+from .models import SampleRecipe, UserSearchHistory
 from .helpers import temp_data
 from .serializers import RecipeListSerialzer
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -105,11 +106,11 @@ def recipe_recommendation(request):
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
 
-class RecipeListAPIView(APIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
-    def get(self, request):
-        data = temp_data
-        serializer = RecipeListSerialzer(data, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def RecipeListAPIView(request):
+    rand_entities = random.sample(range(150),9)
+    sampled_data = SampleRecipe.objects.filter(id__in=rand_entities).all()
+    serializer = RecipeListSerialzer(sampled_data, many=True)
+    return JsonResponse(serializer.data, safe=False)
