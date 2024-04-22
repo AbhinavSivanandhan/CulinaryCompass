@@ -104,12 +104,13 @@ const Dashboard = () => {
               <Typography style={{ fontWeight: 'bold' }} variant="h5" color="blue" className="mb-2">
                 {item.name}
               </Typography>
-              <Typography>
-                {item.description}
-              </Typography>
+              <Typography style={{ fontWeight: 'italic', overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical' }} variant="body1" color="blue" className="mb-2">
+  {item.description}
+</Typography>
+
             </CardBody>
             <CardFooter className="card-footer">
-    <Button style={{ fontWeight: 'bold' }} onClick={() => handleRecipe(item.title)}>View Recipe</Button>
+    <Button style={{ fontWeight: 'bold', color:"blue" }} onClick={() => handleRecipe(item.title)}>View Recipe</Button>
 </CardFooter>
 
           </Card>
