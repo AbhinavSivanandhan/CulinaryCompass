@@ -110,7 +110,7 @@ const Dashboard = () => {
 
             </CardBody>
             <CardFooter className="card-footer">
-    <Button style={{ fontWeight: 'bold', color:"blue" }} onClick={() => handleRecipe(item.title)}>View Recipe</Button>
+    <Button style={{ fontWeight: 'bold', color:"blue" }} onClick={() => handleRecipe(item.name)}>View Recipe</Button>
 </CardFooter>
 
           </Card>
