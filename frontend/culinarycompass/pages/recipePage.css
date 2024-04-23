@@ -417,10 +417,8 @@
 
 .recipe-title {
     text-align: center;
-    margin-top: 10px;
-    margin-bottom: 20px;
     animation: fadeInUp 0.8s ease-out forwards; /* Use the animation */
     color: #5e560f; /* Deep violet to match your navbar color or any theme color */
     font-size: 2rem; /* Increases the font size for better visibility */
-    font-weight: bold; /* Makes the text bold */
+    /* font-weight: bold; Makes the text bold */
 }
