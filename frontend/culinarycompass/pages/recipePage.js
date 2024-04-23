@@ -7,7 +7,7 @@ const RecipePage = () => {
     const router = useRouter();
     const [recipeName, setRecipeName] = useState('');
     const [isLoading, setIsLoading] = useState(true);
-    const { getRecipes, recipes, getUser, user, getRecipeImages} = useAuth();
+    const { getRecipes, recipes, getUser, user, getRecipeImages, clearRecipes} = useAuth();
     const [showDetails, setShowDetails] = useState(false);
     const [selectedRecipe, setSelectedRecipe] = useState(null);
     const [recipeImagesMap, setRecipeImagesMap] = useState({});
@@ -60,6 +60,7 @@ const RecipePage = () => {
     };
 
     const handleSearch = () => {
+        clearRecipes();
         router.push('/dashboard');
     };
 

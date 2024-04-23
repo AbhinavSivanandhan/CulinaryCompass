@@ -174,9 +174,14 @@ export const AuthProvider = ({ children }) => {
     getRecipeList();
   }
 
+  const clearRecipes = () => {
+    setRecipes(null);
+    setRecipeImages(null);
+  }
+
 
   return (
-    <AuthContext.Provider value={{ accessToken, refreshToken, login, logout, register, user , recipeList, getRecipes, recipes, getRecipeImages, recipeImages, dashboard_init, getUser  }}>
+    <AuthContext.Provider value={{ accessToken, refreshToken, login, logout, register, user , recipeList, getRecipes, recipes, getRecipeImages, recipeImages, dashboard_init, getUser, clearRecipes  }}>
       {children}
     </AuthContext.Provider>
   );
