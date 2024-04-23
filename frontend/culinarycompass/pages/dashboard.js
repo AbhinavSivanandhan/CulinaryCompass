@@ -54,8 +54,7 @@ const Dashboard = () => {
     setSearchInput(e.target.value); // Update search input state
   };
 
-  const performSearch = () => {
-    console.log("Searching for:", searchInput);
+  const performSearch = () => { 
     router.push('/recipePage?recipename=' + searchInput);
   };
 

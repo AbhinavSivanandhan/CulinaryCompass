@@ -3,7 +3,7 @@
 export default async function handler(req, res) {
     if (req.method === 'GET') {
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/profile/', {
+            const response = await fetch(`${process.env.backend_url}profile/`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

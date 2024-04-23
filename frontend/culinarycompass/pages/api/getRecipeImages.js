@@ -2,15 +2,14 @@
 
 export default async function handler(req, res) {
     if (req.method === 'GET') {
-        const search_term = req.query.search; 
-        const UNSPLASH_CLIENT_ID=`cWd2Zz5_Mr5jF9aRb1kMzcVn2EBv8bR4LwxTUsCi7Cw`;
+        const search_term = req.query.search;
          // Assuming the search term is passed as a query parameter
         if (!search_term) {
             return res.status(400).json({ message: 'Search term is required' });
         }
 
         try {
-            const unsplashUrl = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(search_term)}&client_id=${encodeURIComponent(UNSPLASH_CLIENT_ID)}&per_page=10`;
+            const unsplashUrl = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(search_term)}&client_id=${encodeURIComponent(process.env.unsplash_client_id)}&per_page=10`;
             const response = await fetch(unsplashUrl, {
                 method: 'GET',
                 headers: {

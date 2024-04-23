@@ -19,27 +19,7 @@ const RegisterForm = ({ className }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form data:', formData);
     register(formData.username, formData.first_name, formData.last_name, formData.email, formData.gender, formData.dob, formData.password);
-    // try {
-    //   const response = await fetch('/api/register', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(formData),
-    //   });
-
-    //   if (!response.ok) {
-    //     throw new Error(`HTTP error! status: ${response.status}`);
-    //   }
-    //   const responseData = await response.json();
-    //   console.log('Server response:', responseData);
-    //   alert('Registration successful!');
-    // } catch (error) {
-    //   console.error('Registration error:', error);
-    //   alert('Registration failed. Please try again.');
-    // }
   };
   const calculateMinDate=()=> {
     var today = new Date();

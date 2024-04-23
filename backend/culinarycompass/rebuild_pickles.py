@@ -68,8 +68,6 @@ def precompute_embeddings():
         pickle.dump(combined_embeddings, f)
     with open(vectorizer_path, 'wb') as f:
         pickle.dump(vectorizer, f)
-    print(vectorizer)
-    print(combined_embeddings)
     print("Rebuilt and saved embeddings and vectorizer in the ml_models folder.")
 
 if __name__ == "__main__":

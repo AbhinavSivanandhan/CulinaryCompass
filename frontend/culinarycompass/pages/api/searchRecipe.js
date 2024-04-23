@@ -5,7 +5,7 @@ export default async function handler(req, res) {
         const { user_input } = req.body;
         
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/recipe_recommendation/', {
+            const response = await fetch(`${process.env.backend_url}recipe_recommendation/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

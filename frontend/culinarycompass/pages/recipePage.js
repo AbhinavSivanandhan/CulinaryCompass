@@ -5,13 +5,11 @@ import { useAuth } from '@/context/Authcontext';
 
 const RecipePage = () => {
     const router = useRouter();
-    const [firstLoad, setFirstLoad] = useState(true);
     const [recipeName, setRecipeName] = useState('');
     const [isLoading, setIsLoading] = useState(true);
-    const { getRecipes, recipes, getUser, user, getRecipeImages, recipeImages } = useAuth();
+    const { getRecipes, recipes, getUser, user, getRecipeImages} = useAuth();
     const [showDetails, setShowDetails] = useState(false);
     const [selectedRecipe, setSelectedRecipe] = useState(null);
-    const [pageLoaded, setPageLoaded] = useState(false);
     const [recipeImagesMap, setRecipeImagesMap] = useState({});
 
     useEffect(() => {
@@ -38,10 +36,6 @@ const RecipePage = () => {
             Promise.all(recipes.similar_recipes.map(recipe => {
                 return getRecipeImages(recipe.name)
                     .then(imageUrl => {
-                        console.log("Preimagess");
-                        console.log(recipeImages);
-                        console.log(imageUrl);
-                        console.log("imagess");
                         return { name: recipe.name, image: imageUrl };
                     })
                     .catch(error => {
@@ -66,8 +60,6 @@ const RecipePage = () => {
     };
 
     const handleSearch = () => {
-        // router.reload();
-        // router.push('/');
         router.push('/dashboard');
     };
 
@@ -76,7 +68,6 @@ const RecipePage = () => {
         setSelectedRecipe(recipe);
         setShowDetails(true);
     };
-    // const stepsArray = selectedRecipe.steps ? JSON.parse(selectedRecipe.steps.replace(/'/g, '"')) : [];
                            
     function parseSteps(stepsStr) {
         try {
@@ -90,9 +81,7 @@ const RecipePage = () => {
 
     const stepsArray = selectedRecipe ? parseSteps(selectedRecipe.steps) : [];
     const ingredientsArray = selectedRecipe ? parseSteps(selectedRecipe.steps) : [];
-    // console.log("loadImage");
-    // console.log(recipeImages);
-    // { name: recipe.name, image: imageUrl }
+    
     return (
         <div className={`dashboard-container ${showDetails ? 'blur-effect' : ''}`}>
             <nav className={`navbar ${showDetails ? 'blur-effect' : ''}`}>
