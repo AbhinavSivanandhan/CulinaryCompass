@@ -47,14 +47,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
-    setAccessToken(null);
-    setRefreshToken(null);
-    localStorage.removeItem('access');
-    localStorage.removeItem('refresh');
-    router.push('/');
-  };
-
   const register = async (username, first_name, last_name, email, gender, dob, password) => {
     try {
       const response = await fetch('/api/register/', {
@@ -178,6 +170,17 @@ export const AuthProvider = ({ children }) => {
     setRecipes(null);
     setRecipeImages(null);
   }
+
+  const logout = () => {
+    setAccessToken(null);
+    setRefreshToken(null);
+    localStorage.removeItem('access');
+    localStorage.removeItem('refresh');
+    clearRecipes();
+    setRecipeList(null);
+    setUser(null);
+    router.push('/');
+  };
 
 
   return (
