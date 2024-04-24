@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import './recipePage.css';
 import { useAuth } from '@/context/Authcontext';
+import { capitalizeWords } from '../app/utils';
 
 const RecipePage = () => {
     const router = useRouter();
@@ -100,14 +101,14 @@ const RecipePage = () => {
                     <button className="nav-button" onClick={handleLogout}>Logout</button>
                 </div>
             </nav>
-            <h1 className="title">{recipeName}</h1>
+            <h1 className="title">{capitalizeWords(recipeName)}</h1>
             {!isLoading && recipes && recipes.similar_recipes && recipes.similar_recipes.length > 0 ? (
                <div className="flex flex-wrap m-8">
                {recipes.similar_recipes.map((recipe, index) => {
                    return (
                        <div className="recipe-details card" key={index} onClick={() => handleRecipeClick(recipe)}>
                            <img src={recipeImagesMap[recipe.name]} alt={recipe.name} className="card-image" />
-                           <h2 className="recipe-title">{recipe.name}</h2>
+                           <h2 className="recipe-title">{capitalizeWords(recipe.name)}</h2>
                            <p>Minutes: {recipe.minutes}</p>
                            <p>Number of Steps: {recipe.n_steps}</p>
                        </div>

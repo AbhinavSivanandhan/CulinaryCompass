@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <div className="container max-w-full">
       <img src="/images/Food_Logo.jpg" alt="Culinary Compass Logo" className="logo" />
-      <h1 className="title">Welcome to Culinary Compass</h1>
+      <h1 className="title">Welcome To Culinary Compass</h1>
       <p className="description">
         Embark on a journey to discover and create mouth-watering recipes from around the globe. Let your culinary adventure begin!
       </p>
