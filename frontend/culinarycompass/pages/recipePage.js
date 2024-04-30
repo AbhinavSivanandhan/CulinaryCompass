@@ -101,7 +101,7 @@ const RecipePage = () => {
                     <button className="nav-button" onClick={handleLogout}>Logout</button>
                 </div>
             </nav>
-            <h1 className="title">Showing results for '{capitalizeWords(recipeName)}'...</h1>
+            <h1 className="title">Showing results for &apos;{capitalizeWords(recipeName)}&apos;...</h1>
             {!isLoading && recipes && recipes.similar_recipes && recipes.similar_recipes.length > 0 ? (
                <div className="flex flex-wrap m-8">
                {recipes.similar_recipes.map((recipe, index) => {
