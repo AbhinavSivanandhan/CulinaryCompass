@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/context/Authcontext';
 import './dashboard.css';
+import { capitalizeWords } from '../app/utils';
 import {
   Card,
   CardHeader,
@@ -67,11 +68,11 @@ const Dashboard = () => {
 </div>
 
         <div>
-          <button className="nav-button" onClick={handleSearch}>Search for Recipe</button>
+          <button className="nav-button" onClick={handleSearch}>Search For Recipe</button>
           <button className="nav-button" onClick={handleLogout}>Logout</button>
         </div>
       </nav>
-      <h1 className="title">Welcome to Culinary Compass</h1>
+      <h1 className="title">{capitalizeWords("welcome to culinary compass")}</h1>
       <div className="flex flex-wrap m-8">
   {showSearch && (
     <div className="search-bar">
@@ -90,7 +91,7 @@ const Dashboard = () => {
         {isLoading ? (
           <div className="loader-container"><div className="loader"></div></div>
         ) : (
-          recipeList.length > 0 ? recipeList.slice(0, 9).map((item, index) => (
+          (recipeList || []).length > 0 ? recipeList.slice(0, 9).map((item, index) => (
             <Card key={item.id} className="mt-6 mb-5 p-8 w-96 flex flex-col items-center " style={{ backgroundColor: '#f5f5f5' }}> 
             <CardHeader color="black" className="w-full">
               <img
@@ -101,7 +102,7 @@ const Dashboard = () => {
             </CardHeader>
             <CardBody className="w-full text-center">  
               <Typography style={{ fontWeight: 'bold' }} variant="h5" color="blue" className="mb-2">
-                {item.name}
+              {capitalizeWords(item.name)}
               </Typography>
               <Typography style={{ fontWeight: 'italic', overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical' }} variant="body1" color="blue" className="mb-2">
   {item.description}
