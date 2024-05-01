@@ -1,11 +1,11 @@
 // LoginForm.js
 // Import styled-components
-import { useAuth } from '@/context/Authcontext';
+
 import { useState } from 'react';
 import styles from './login.module.css';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-
+import { useAuth } from '@/context/Authcontext';
 // Your Component
 const LoginForm = () => {
 
@@ -36,7 +36,7 @@ const LoginForm = () => {
       <h2 className={styles.title}>Login</h2>
       <input type="name" name="username" placeholder="Username" onChange={(e) => setUsername(e.target.value)} className={styles.inputField} required />
       <input type="password" name="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} className={styles.inputField} required />
-      {error && <p color='red'>{error}</p>}
+      {error && <p color='red'>{JSON.stringify(error)}</p>}
       <button disabled={username == "" || password == ""} type="submit" className={`${styles.button} ${styles.submitButton}`}>Login</button>
       {/* <button  type="submit" className={`${styles.button} ${styles.submitButton}`}>Login</button> */}
     </form>

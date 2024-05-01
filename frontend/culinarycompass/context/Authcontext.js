@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
       if (response.ok && response.status === 200) {
         console.log("Registration Successful");
-        router.push('/login');
+        router.push('/verify_account');
       }
       else {
         console.log("Registration Failed");
@@ -182,9 +182,34 @@ export const AuthProvider = ({ children }) => {
     router.push('/');
   };
 
+  const verifyAccount = async (email, code) => {
+    try {
+      const response = await fetch('/api/verifyAccount/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, code }),
+      });
+      const data = await response.json();
+      if (response.ok && response.status === 200) {
+        console.log("Account Verified");
+        router.push('/login');
+      }
+      else {
+        console.log("Account Verification Failed");
+        alert(data.message + "\n" + JSON.stringify(data.data));
+      }
+    }
+    catch (error) {
+      console.error('Account Verification error:', error);
+      alert('Account Verification failed. Please try again.');
+    }
+  }
+
 
   return (
-    <AuthContext.Provider value={{ accessToken, refreshToken, login, logout, register, user , recipeList, getRecipes, recipes, getRecipeImages, recipeImages, dashboard_init, getUser, clearRecipes  }}>
+    <AuthContext.Provider value={{ accessToken, refreshToken, login, logout, register, user , recipeList, getRecipes, recipes, getRecipeImages, recipeImages, dashboard_init, getUser, clearRecipes, verifyAccount  }}>
       {children}
     </AuthContext.Provider>
   );
