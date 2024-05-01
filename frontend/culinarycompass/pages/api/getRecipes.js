@@ -16,15 +16,15 @@ export default async function handler(req, res) {
                 return res.status(200).json(data);
             }
             else {
-                res.status(400).json(data);
+                return res.status(400).json(data);
             }
         }
         catch (error) {
             console.error('Get Recipes error:', error);
-            res.status(500).json({ message: 'Get Recipes failed. Please try again.' });
+            return res.status(500).json({ message: 'Get Recipes failed. Please try again.' });
         }
     }
     else {
-        res.status(405).json({ message: 'Method not allowed' });
+        return res.status(405).json({ message: 'Method not allowed' });
     }
 }
