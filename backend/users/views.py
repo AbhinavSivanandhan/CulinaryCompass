@@ -53,7 +53,7 @@ class UserVerificationAPIView(APIView):
     def post(self, request):
         email = request.data['email']
         code = request.data['code']
-        stored_code = restore_verification_code(email).decode('utf-8')
+        stored_code = restore_verification_code(email).decode('utf-8') if restore_verification_code(email) else None
         if stored_code and code == stored_code and CustomUser.objects.filter(email=email).exists() and not CustomUser.objects.get(email=email).is_verified:
             user = CustomUser.objects.get(email=email)
             user.is_verified = True
